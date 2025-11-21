@@ -8,53 +8,47 @@ if (!isset($_SESSION['user'])) {
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <title>Dashboard - Inventory Gudang</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="utf-8">
+  <title>Dashboard - Inventory Gudang</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-light">
-
-<nav class="navbar navbar-dark bg-primary">
+<body>
+  <header class="topbar">
     <div class="container">
-        <a class="navbar-brand" href="#">Inventory Gudang</a>
-        <span class="text-white">Halo, <?= $_SESSION['user'] ?></span>
-        <a href="logout.php" class="btn btn-outline-light btn-sm">Logout</a>
+      <div class="brand">Inventory Gudang</div>
+      <nav class="nav">
+        <span class="welcome">Halo, <?= htmlspecialchars($_SESSION['user']) ?></span>
+        <a class="btn-ghost" href="logout.php">Logout</a>
+      </nav>
     </div>
-</nav>
+  </header>
 
-<div class="container mt-5">
+  <main class="container mt-20">
+    <h1>Dashboard Sistem Inventory Gudang</h1>
+    <p class="lead">Ini adalah dashboard awal. Minggu depan akan muncul menu CRUD dan transaksi.</p>
 
-    <h3 class="text-center mb-4">Dashboard Sistem Inventory Gudang</h3>
+    <section class="grid-4 gap-16 mt-20">
+      <article class="card">
+        <h3>Master Barang</h3>
+        <p>Kelola data barang (kode, nama, kategori, stok minimum).</p>
+      </article>
 
-    <div class="row g-3">
+      <article class="card">
+        <h3>Transaksi Masuk</h3>
+        <p>Form penerimaan barang dari supplier (dengan nomor PO).</p>
+      </article>
 
-        <div class="col-md-3">
-            <div class="card shadow-sm p-3 text-center">
-                <h5>Master Barang</h5>
-            </div>
-        </div>
+      <article class="card">
+        <h3>Transaksi Keluar</h3>
+        <p>Form pengeluaran barang (validasi stok otomatis).</p>
+      </article>
 
-        <div class="col-md-3">
-            <div class="card shadow-sm p-3 text-center">
-                <h5>Transaksi Masuk</h5>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card shadow-sm p-3 text-center">
-                <h5>Transaksi Keluar</h5>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card shadow-sm p-3 text-center">
-                <h5>Laporan Stok</h5>
-            </div>
-        </div>
-
-    </div>
-
-</div>
-
+      <article class="card">
+        <h3>Laporan Stok</h3>
+        <p>Mutasi stok, stok opname, slow-moving, ringkasan per kategori.</p>
+      </article>
+    </section>
+  </main>
 </body>
 </html>
