@@ -48,3 +48,87 @@ html,body { height:100%; margin:0; font-family: Inter, system-ui, -apple-system,
   .container { width:94%; }
   .topbar .container { flex-direction:column; gap:8px; align-items:flex-start; }
 }
+
+
+
+
+
+.card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.card-link:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+}
+
+
+
+
+/* HEADER STYLE */
+.header {
+    width: 100%;
+    background: #1e3a8a;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+}
+
+.logo {
+    font-size: 20px;
+    margin: 0;
+}
+
+.nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 14px;
+}
+
+.nav a:hover {
+    text-decoration: underline;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+}
+
+.user-text {
+    margin-right: 12px;
+    font-size: 14px;
+}
+
+.btn-login, .btn-logout {
+    background: #f31431;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.btn-login:hover, .btn-logout:hover {
+    opacity: .85;
+}
+
+/* MAIN CONTENT */
+.main-content {
+    padding: 20px;
+}
+
+/* FOOTER */
+.footer {
+    margin-top: 40px;
+    text-align: center;
+    padding: 12px 0;
+    background: #f1f5f9;
+    font-size: 14px;
+}
+
+

@@ -29,26 +29,29 @@ if (!isset($_SESSION['user'])) {
     <p class="lead">Ini adalah dashboard awal. Minggu depan akan muncul menu CRUD dan transaksi.</p>
 
     <section class="grid-4 gap-16 mt-20">
-      <article class="card">
-        <h3>Master Barang</h3>
-        <p>Kelola data barang (kode, nama, kategori, stok minimum).</p>
-      </article>
 
-      <article class="card">
-        <h3>Transaksi Masuk</h3>
-        <p>Form penerimaan barang dari supplier (dengan nomor PO).</p>
-      </article>
+    <a href="controllers/BarangController.php?action=index" class="card card-link">
+      <h3>Master Barang</h3>
+      <p>Kelola data barang (kode, nama, kategori, stok minimum).</p>
+    </a>
 
-      <article class="card">
-        <h3>Transaksi Keluar</h3>
-        <p>Form pengeluaran barang (validasi stok otomatis).</p>
-      </article>
+    <a href="controllers/KategoriController.php?action=index" class="card card-link">
+      <h3>Master Kategori</h3>
+      <p>Kelola data kategori barang.</p>
+    </a>
 
-      <article class="card">
-        <h3>Laporan Stok</h3>
-        <p>Mutasi stok, stok opname, slow-moving, ringkasan per kategori.</p>
-      </article>
-    </section>
+    <a href="controllers/SupplierController.php?action=index" class="card card-link">
+      <h3>Master Supplier</h3>
+      <p>Kelola data pemasok barang.</p>
+    </a>
+
+    <a href="controllers/GudangController.php?action=index" class="card card-link">
+      <h3>Master Gudang</h3>
+      <p>Kelola data lokasi gudang penyimpanan.</p>
+    </a>
+
+  </section>
+
   </main>
 </body>
 </html>
