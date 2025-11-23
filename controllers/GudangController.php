@@ -1,4 +1,9 @@
 <?php
+session_start();
+if (!isset($_SESSION['user'])) {
+    header("Location: ../views/auth/login.php");
+    exit;
+}
 require_once __DIR__ . '/../models/GudangModel.php';
 
 class GudangController {

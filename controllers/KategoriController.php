@@ -1,6 +1,9 @@
 <?php
-// controllers/KategoriController.php
 session_start();
+if (!isset($_SESSION['user'])) {
+    header("Location: ../views/auth/login.php");
+    exit;
+}
 require_once __DIR__ . '/../config/db.php'; // harus membuat $pdo di file ini
 require_once __DIR__ . '/../models/KategoriModel.php';
 
