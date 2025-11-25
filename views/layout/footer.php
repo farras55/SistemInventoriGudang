@@ -1,6 +1,8 @@
-  </main>
-  <footer style="text-align:center;padding:18px 0;color:#666;">
+</main>
+
+<footer class="footer">
     <small>&copy; <?= date('Y') ?> Sistem Inventory Gudang</small>
-  </footer>
+</footer>
+
 </body>
 </html>

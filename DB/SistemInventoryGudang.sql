@@ -331,3 +331,27 @@ CREATE INDEX idx_barang_search ON barang(nama_barang);
 CREATE INDEX idx_kategori_search ON kategori_barang(nama_kategori);
 CREATE INDEX idx_supplier_search ON supplier(nama_supplier);
 CREATE INDEX idx_gudang_search ON gudang(nama_gudang);
+
+DROP VIEW IF EXISTS v_laporan_mutasi;
+
+CREATE OR REPLACE VIEW v_laporan_mutasi AS
+WITH masuk AS (
+    SELECT id_barang, SUM(jumlah) AS total_masuk
+    FROM transaksi_masuk
+    GROUP BY id_barang
+),
+keluar AS (
+    SELECT id_barang, SUM(jumlah) AS total_keluar
+    FROM transaksi_keluar
+    GROUP BY id_barang
+)
+SELECT 
+    b.id_barang,
+    b.nama_barang,
+    COALESCE(m.total_masuk, 0) AS total_masuk,
+    COALESCE(k.total_keluar, 0) AS total_keluar,
+    COALESCE(m.total_masuk, 0) - COALESCE(k.total_keluar, 0) AS saldo_mutasi
+FROM barang b
+LEFT JOIN masuk m ON b.id_barang = m.id_barang
+LEFT JOIN keluar k ON b.id_barang = k.id_barang
+ORDER BY b.nama_barang;

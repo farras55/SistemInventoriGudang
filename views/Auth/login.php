@@ -8,11 +8,11 @@
 </head>
 <body>
   <main class="center-page">
-    <div class="card">
+    <div class="card form-box">
       <h2 class="card-title">Login Admin</h2>
 
       <?php if (isset($_GET['error'])): ?>
-        <div class="alert alert-error"><?= htmlspecialchars($_GET['error']) ?></div>
+        <div class="alert"><?= htmlspecialchars($_GET['error']) ?></div>
       <?php endif; ?>
 
       <form method="POST" action="../../controllers/AuthController.php" class="form">
