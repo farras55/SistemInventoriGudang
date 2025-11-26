@@ -1,5 +1,5 @@
 /* ============================
-    GLOBAL STYLE RESET
+   GLOBAL RESET
 ============================= */
 * {
     margin: 0;
@@ -10,23 +10,32 @@
 html, body {
     font-family: "Inter", Arial, Helvetica, sans-serif;
     background: #f3f4f6;
-    height: 100%;
     color: #1f2937;
+    height: 100%;
 }
 
 /* ============================
-    LAYOUT WRAPPER
+   LAYOUT MAIN STRUCTURE
 ============================= */
 body {
     display: flex;
 }
 
+/* WRAPPER (Sidebar + Content + Footer) */
+.page-wrapper {
+    flex: 1;
+    margin-left: 240px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
 /* ============================
-    SIDEBAR
+   SIDEBAR
 ============================= */
 .sidebar {
     width: 240px;
-    background: #1e3a8a; /* biru elegan */
+    background: #1e3a8a;
     color: white;
     height: 100vh;
     position: fixed;
@@ -45,7 +54,6 @@ body {
 
 .sidebar-header h2 {
     font-size: 22px;
-    letter-spacing: 0.5px;
 }
 
 .sidebar-menu {
@@ -62,12 +70,12 @@ body {
 
 .menu-item {
     display: block;
-    padding: 10px 14px;
-    border-radius: 8px;
     color: white;
     text-decoration: none;
+    padding: 10px 14px;
+    border-radius: 8px;
     font-size: 14px;
-    transition: background 0.15s ease;
+    transition: 0.15s ease;
 }
 
 .menu-item:hover {
@@ -96,22 +104,15 @@ body {
 }
 
 /* ============================
-    MAIN CONTENT + HEADER
+   TOP HEADER
 ============================= */
-.content {
-    margin-left: 240px;
-    padding: 25px;
-    width: calc(100% - 240px);
-}
-
 .top-header {
     background: white;
     padding: 18px 25px;
-    margin-left: 240px;
     border-bottom: 1px solid #e5e7eb;
-    position: fixed;
-    width: calc(100% - 240px);
-    z-index: 10;
+    position: sticky;
+    top: 0;
+    z-index: 20;
 }
 
 .top-header h1 {
@@ -119,18 +120,30 @@ body {
     font-weight: 600;
 }
 
+/* ============================
+   CONTENT AREA
+============================= */
 .content {
-    padding-top: 90px; /* memberi ruang untuk header */
+    padding: 25px;
+    padding-bottom: 40px;
+    flex-grow: 1;
+}
+
+/* Page header: Title + Add button */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
 }
 
 /* ============================
-    DASHBOARD CARDS
+   DASHBOARD CARDS
 ============================= */
 .dashboard-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
     gap: 18px;
-    margin-top: 20px;
 }
 
 .card {
@@ -145,68 +158,99 @@ body {
 
 .card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+    box-shadow: 0 12px 22px rgba(0,0,0,0.08);
 }
 
-.card h3 {
-    margin-bottom: 8px;
-    font-size: 18px;
-}
-
-.card p {
-    font-size: 14px;
-    color: #4b5563;
-}
+.card p { color: #4b5563; }
 
 /* ============================
-    TABLE
+   TABLES
 ============================= */
 .table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 18px;
-}
-
-.table th, .table td {
-    border: 1px solid #e5e7eb;
-    padding: 10px 12px;
-    font-size: 14px;
+    margin-top: 14px;
+    background: white;
 }
 
 .table th {
     background: #1e3a8a;
     color: white;
+    padding: 10px;
+    text-align: left;
+}
+
+.table td {
+    padding: 10px 12px;
+    border: 1px solid #e5e7eb;
 }
 
 .table tr:nth-child(even) {
     background: #f9fafb;
 }
 
-.btn-small, .btn-small-danger {
-    padding: 6px 10px;
-    font-size: 12px;
+/* ============================
+   BADGES
+============================= */
+.badge {
+    padding: 4px 10px;
     border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: white;
+}
+
+.badge-red    { background: #ef4444; }
+.badge-yellow { background: #f59e0b; }
+.badge-green  { background: #10b981; }
+
+/* ============================
+   BUTTONS
+============================= */
+.btn {
+    background: #2563eb;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    display: inline-block;
+}
+
+.btn:hover { background: #1d4ed8; }
+
+.btn-small,
+.btn-small-danger {
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    color: white;
     text-decoration: none;
 }
 
-.btn-small {
-    background: #2563eb;
-    color: white;
-}
+.btn-small { background: #2563eb; }
+.btn-small-danger { background: #dc2626; }
 
-.btn-small-danger {
-    background: #dc2626;
-    color: white;
+.action-btns {
+    display: flex;
+    gap: 6px;
 }
 
 /* ============================
-    FORMS
+   FORMS
 ============================= */
 .form-box {
     background: white;
     padding: 22px;
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    max-width: 600px;
+}
+
+.label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: block;
 }
 
 .input, select, textarea {
@@ -218,49 +262,25 @@ body {
     font-size: 14px;
 }
 
-.btn {
-    padding: 10px 14px;
-    background: #1e40af;
-    color: white;
-    border-radius: 8px;
-    margin-top: 12px;
-    border: none;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-.btn:hover {
-    background: #1e3a8a;
-}
-
 /* ============================
-    FOOTER
+   FOOTER (NORMAL)
 ============================= */
 .footer {
-    text-align: center;
-    padding: 15px;
-    color: #6b7280;
     background: #f9fafb;
-    position: fixed;
-    bottom: 0;
-    left: 240px;  /* mengikuti sidebar */
-    width: calc(100% - 240px);
+    padding: 18px;
+    text-align: center;
+    color: #6b7280;
     border-top: 1px solid #e5e7eb;
-    z-index: 5;
+    margin-top: auto;
+    width: 100%;
 }
 
-
 /* ============================
-    RESPONSIVE
+   RESPONSIVE
 ============================= */
 @media (max-width: 850px) {
-    .sidebar {
-        width: 200px;
-    }
-    .top-header, .content {
-        margin-left: 200px;
-        width: calc(100% - 200px);
-    }
+    .sidebar { width: 200px; }
+    .page-wrapper { margin-left: 200px; }
 }
 
 @media (max-width: 640px) {
@@ -268,70 +288,128 @@ body {
         left: -240px;
         transition: 0.3s ease;
     }
-
-    .sidebar.active {
-        left: 0;
-    }
-
-    .top-header {
-        margin-left: 0;
-        width: 100%;
-    }
-
-    .content {
-        margin-left: 0;
-        width: 100%;
-    }
+    .sidebar.active { left: 0; }
+    .page-wrapper { margin-left: 0; }
 }
 
 /* ============================
-   LOGIN / AUTH PAGE
-   Styles moved here so individual views remain logic-only
-============================== */
+   AUTH PAGES
+============================= */
 .center-page {
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     min-height: 100vh;
     padding: 24px;
+}
+
+/* When body is a flex container, make the auth center container a flex-item centered via auto margin */
+.center-page {
+    margin: auto;
     width: 100%;
-    background: transparent;
 }
 
 .card.form-box {
-    max-width: 420px;
     width: 100%;
-}
-
-.card-title {
-    margin-bottom: 12px;
-    font-size: 20px;
-    color: #111827;
+    max-width: 420px;
 }
 
 .alert {
     background: #fff5f5;
     color: #7f1d1d;
     padding: 10px 12px;
-    border: 1px solid #fecaca;
     border-radius: 8px;
+    border: 1px solid #fecaca;
     margin-bottom: 12px;
-}
-
-.label {
-    display: block;
-    font-size: 14px;
-    color: #374151;
-    margin-bottom: 8px;
 }
 
 .muted {
     color: #6b7280;
     font-size: 13px;
-    margin-top: 12px;
+}
+
+/* Login / Auth improvements */
+.card-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    text-align: center;
+    color: #111827;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.form .label { font-size: 14px; }
+
+.input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 6px 18px rgba(37,99,235,0.08);
+}
+
+.form .btn {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 15px;
+    border-radius: 10px;
+}
+
+.card.form-box p.muted { text-align: center; margin-top: 8px; }
+
+/* small brand/logo area inside auth card (optional markup) */
+.auth-brand {
+    display: block;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.auth-brand img { max-width: 120px; height: auto; display: inline-block; }
+
+/* ============================
+   PAGINATION
+============================= */
+.pagination {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.page-item {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 8px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    color: #374151;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.12s ease;
+}
+
+.page-item:hover {
+    background: #f3f4f6;
+    transform: translateY(-2px);
+}
+
+.page-item.active {
+    background: #2563eb; /* same as .btn */
+    color: #ffffff;
+    border-color: #2563eb;
+    box-shadow: 0 8px 18px rgba(37,99,235,0.12);
+}
+
+.page-item.disabled {
+    opacity: 0.5;
+    pointer-events: none;
 }
 
 @media (max-width: 480px) {
-    .card.form-box { padding: 16px; }
-    .card-title { font-size: 18px; }
+    .page-item { padding: 6px 8px; font-size: 13px; }
+    .pagination { gap: 6px; }
 }

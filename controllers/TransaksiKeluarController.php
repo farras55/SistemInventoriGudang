@@ -16,7 +16,15 @@ class TransaksiKeluarController {
     }
 
     public function index() {
-        $data = $this->model->getAll();
+        $keyword = trim($_GET['search'] ?? '');
+        $page = max(1, (int)($_GET['page'] ?? 1));
+        $limit = 10;
+        $offset = ($page - 1) * $limit;
+
+        $data = $this->model->getAllPaginated($limit, $offset, $keyword);
+        $total = $this->model->count($keyword);
+        $pages = (int) ceil($total / $limit);
+
         include __DIR__ . '/../views/trans_keluar/index.php';
     }
 

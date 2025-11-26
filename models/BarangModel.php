@@ -11,6 +11,7 @@ class BarangModel {
     }
 
     public function getAll() {
+        // default fallback to return all if no params passed (kept for compatibility)
         $sql = "SELECT b.*, k.nama_kategori, s.nama_supplier, g.nama_gudang
             FROM barang b
             JOIN kategori_barang k ON b.id_kategori = k.id_kategori
@@ -18,8 +19,44 @@ class BarangModel {
             JOIN gudang g ON b.id_gudang = g.id_gudang
             ORDER BY id_barang DESC";
 
-
         return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // new: getAll with pagination and optional keyword search
+    public function getAllPaginated(int $limit, int $offset, string $keyword = "") {
+        $sql = "SELECT b.*, k.nama_kategori, s.nama_supplier, g.nama_gudang
+            FROM barang b
+            JOIN kategori_barang k ON b.id_kategori = k.id_kategori
+            JOIN supplier s ON b.id_supplier = s.id_supplier
+            JOIN gudang g ON b.id_gudang = g.id_gudang
+            WHERE (b.nama_barang ILIKE :kw
+                   OR k.nama_kategori ILIKE :kw
+                   OR s.nama_supplier ILIKE :kw
+                   OR g.nama_gudang ILIKE :kw)
+            ORDER BY b.id_barang DESC
+            LIMIT :limit OFFSET :offset";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':kw', "%$keyword%", PDO::PARAM_STR);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function count(string $keyword = "") {
+        $sql = "SELECT COUNT(*) FROM barang b
+            JOIN kategori_barang k ON b.id_kategori = k.id_kategori
+            JOIN supplier s ON b.id_supplier = s.id_supplier
+            JOIN gudang g ON b.id_gudang = g.id_gudang
+            WHERE (b.nama_barang ILIKE :kw
+                   OR k.nama_kategori ILIKE :kw
+                   OR s.nama_supplier ILIKE :kw
+                   OR g.nama_gudang ILIKE :kw)";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':kw', "%$keyword%", PDO::PARAM_STR);
+        $stmt->execute();
+        return (int) $stmt->fetchColumn();
     }
 
     public function getById($id) {

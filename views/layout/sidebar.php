@@ -10,9 +10,8 @@ if (session_status() === PHP_SESSION_NONE) {
     </div>
 
     <nav class="sidebar-menu">
-        <a href="/../index.php" class="menu-item">
-            📊 Dashboard
-        </a>
+
+        <a href="/../index.php" class="menu-item">📊 Dashboard</a>
 
         <p class="menu-label">Master Data</p>
         <a href="/../controllers/BarangController.php?action=index" class="menu-item">📦 Barang</a>

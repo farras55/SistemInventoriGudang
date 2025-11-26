@@ -15,6 +15,29 @@ class GudangModel {
         return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    // paginated + search
+    public function getAllPaginated(int $limit, int $offset, string $keyword = "") {
+        $sql = "SELECT * FROM gudang
+                WHERE (nama_gudang ILIKE :kw OR lokasi ILIKE :kw)
+                ORDER BY id_gudang DESC
+                LIMIT :limit OFFSET :offset";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':kw', "%$keyword%", PDO::PARAM_STR);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
+    public function count(string $keyword = "") {
+        $sql = "SELECT COUNT(*) FROM gudang WHERE (nama_gudang ILIKE :kw OR lokasi ILIKE :kw)";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':kw', "%$keyword%", PDO::PARAM_STR);
+        $stmt->execute();
+        return (int) $stmt->fetchColumn();
+    }
+
     public function getById($id) {
         $sql = "SELECT * FROM gudang WHERE id_gudang = :id";
         $stmt = $this->db->prepare($sql);

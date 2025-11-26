@@ -15,6 +15,36 @@ class SupplierModel {
         return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    // paginated + search
+    public function getAllPaginated(int $limit, int $offset, string $keyword = "") {
+        $sql = "SELECT * FROM supplier
+            WHERE (nama_supplier ILIKE :kw
+                   OR kontak ILIKE :kw
+                   OR alamat ILIKE :kw
+                   OR email ILIKE :kw)
+            ORDER BY id_supplier DESC
+            LIMIT :limit OFFSET :offset";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':kw', "%$keyword%", PDO::PARAM_STR);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
+    public function count(string $keyword = "") {
+        $sql = "SELECT COUNT(*) FROM supplier
+            WHERE (nama_supplier ILIKE :kw
+                   OR kontak ILIKE :kw
+                   OR alamat ILIKE :kw
+                   OR email ILIKE :kw)";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':kw', "%$keyword%", PDO::PARAM_STR);
+        $stmt->execute();
+        return (int) $stmt->fetchColumn();
+    }
+
     public function getById($id) {
         $sql = "SELECT * FROM supplier WHERE id_supplier = :id";
         $stmt = $this->db->prepare($sql);

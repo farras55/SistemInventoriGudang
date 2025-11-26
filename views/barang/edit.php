@@ -4,7 +4,7 @@ include __DIR__ . '/../layout/header.php';
 ?>
 
 <div class="form-box">
-    <h3 class="form-title">Edit Barang</h3>
+    <h3 class="card-title">Edit Barang</h3>
 
     <form method="POST" action="/../controllers/BarangController.php?action=update" onsubmit="return validateBarang()">
 
@@ -54,22 +54,25 @@ include __DIR__ . '/../layout/header.php';
 
         <div class="form-group">
             <label class="label">Stok</label>
-            <input type="number" name="stok" class="input" value="<?= $barang['stok'] ?>" min="0">
+            <input type="number" name="stok" class="input" min="0"
+                   value="<?= $barang['stok'] ?>">
         </div>
 
         <div class="form-group">
             <label class="label">Minimum Stok</label>
-            <input type="number" name="minstok" class="input" value="<?= $barang['stok_minimum'] ?>" min="1">
+            <input type="number" name="minstok" class="input" min="1"
+                   value="<?= $barang['stok_minimum'] ?>">
         </div>
 
         <div class="form-group">
-            <label class="label">harga_satuan</label>
-            <input type="number" name="harga_satuan" class="input" value="<?= $barang['harga_satuan'] ?>" min="0">
+            <label class="label">Harga Satuan</label>
+            <input type="number" name="harga_satuan" class="input" min="0"
+                   value="<?= $barang['harga_satuan'] ?>">
         </div>
 
         <div class="form-group">
             <label class="label">Keterangan</label>
-            <textarea name="ket" class="input"><?= htmlspecialchars($barang['keterangan']) ?></textarea>
+            <textarea class="input" name="ket"><?= htmlspecialchars($barang['keterangan']) ?></textarea>
         </div>
 
         <button class="btn">Update</button>

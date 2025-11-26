@@ -4,10 +4,10 @@ include __DIR__ . '/../layout/header.php';
 ?>
 
 <div class="form-box">
-    <h3 class="form-title">Tambah Barang</h3>
+    <h3 class="card-title">Tambah Barang</h3>
 
     <form method="POST" action="/../controllers/BarangController.php?action=store" onsubmit="return validateBarang()">
-        
+
         <div class="form-group">
             <label class="label">Nama Barang</label>
             <input type="text" name="nama" class="input" required minlength="2">
@@ -45,12 +45,12 @@ include __DIR__ . '/../layout/header.php';
 
         <div class="form-group">
             <label class="label">Stok Awal</label>
-            <input type="number" name="stok" class="input" value="0" min="0">
+            <input type="number" name="stok" class="input" min="0" value="0">
         </div>
 
         <div class="form-group">
             <label class="label">Minimum Stok</label>
-            <input type="number" name="minstok" class="input" value="1" min="1">
+            <input type="number" name="minstok" class="input" min="1" value="1">
         </div>
 
         <div class="form-group">
@@ -60,7 +60,7 @@ include __DIR__ . '/../layout/header.php';
 
         <div class="form-group">
             <label class="label">Keterangan</label>
-            <textarea name="ket" class="input"></textarea>
+            <textarea class="input" name="ket"></textarea>
         </div>
 
         <button class="btn">Simpan</button>
@@ -73,4 +73,10 @@ function validateBarang() {
     let nama = document.querySelector("[name='nama']").value.trim();
     if (nama.length < 2) {
         alert("Nama barang minimal 2 karakter!");
-        return
+        return false;
+    }
+    return true;
+}
+</script>
+
+<?php include __DIR__ . '/../layout/footer.php'; ?>

@@ -18,6 +18,35 @@ class TransaksiKeluarModel {
         return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    // paginated + search by nama_barang
+    public function getAllPaginated(int $limit, int $offset, string $keyword = "") {
+        $sql = "SELECT tk.*, b.nama_barang 
+            FROM transaksi_keluar tk
+            JOIN barang b ON tk.id_barang = b.id_barang
+            WHERE (b.nama_barang ILIKE :kw
+                   OR CAST(tk.jumlah AS TEXT) ILIKE :kw
+                   OR CAST(tk.tanggal AS TEXT) ILIKE :kw)
+            ORDER BY tk.id_trans_keluar DESC
+            LIMIT :limit OFFSET :offset";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':kw', "%$keyword%", PDO::PARAM_STR);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function count(string $keyword = "") {
+        $sql = "SELECT COUNT(*) FROM transaksi_keluar tk JOIN barang b ON tk.id_barang = b.id_barang
+            WHERE (b.nama_barang ILIKE :kw
+                   OR CAST(tk.jumlah AS TEXT) ILIKE :kw
+                   OR CAST(tk.tanggal AS TEXT) ILIKE :kw)";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':kw', "%$keyword%", PDO::PARAM_STR);
+        $stmt->execute();
+        return (int) $stmt->fetchColumn();
+    }
+
     public function store($data) {
         try {
             // begin transaction
@@ -108,4 +137,5 @@ class TransaksiKeluarModel {
     public function getBarang() {
         return $this->db->query("SELECT * FROM barang ORDER BY nama_barang ASC")->fetchAll(PDO::FETCH_ASSOC);
     }
+
 }
