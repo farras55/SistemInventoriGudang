@@ -40,5 +40,49 @@ class LaporanModel {
         $stmt->execute();
         return (int) $stmt->fetchColumn();
     }
+
+    /**
+     * Ambil data dari materialized view `mv_stok_ringkasan` jika tersedia.
+     * Jika tidak ada, fallback ke query agregasi biasa.
+     */
+    public function getStokRingkasan() {
+        try {
+            // cek apakah materialized view ada
+            $check = $this->db->query("SELECT to_regclass('public.mv_stok_ringkasan') AS mv_name")->fetch(PDO::FETCH_ASSOC);
+            if (!empty($check['mv_name'])) {
+                $sql = "SELECT * FROM mv_stok_ringkasan ORDER BY nama_kategori";
+                $stmt = $this->db->query($sql);
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            }
+            // fallback ke aggregate query
+            $sql = "SELECT k.nama_kategori, SUM(b.stok) AS total_stok
+                    FROM barang b
+                    JOIN kategori_barang k ON b.id_kategori = k.id_kategori
+                    GROUP BY k.nama_kategori
+                    ORDER BY k.nama_kategori";
+            $stmt = $this->db->query($sql);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
+
+    /**
+     * Refresh materialized view mv_stok_ringkasan. Return true on success.
+     */
+    public function refreshMaterialized(): bool {
+        try {
+            $this->db->exec("REFRESH MATERIALIZED VIEW CONCURRENTLY mv_stok_ringkasan");
+            return true;
+        } catch (PDOException $e) {
+            // kalau CONCURRENTLY gagal (mis. MV tidak materialized atau index lock), fallback tanpa CONCURRENTLY
+            try {
+                $this->db->exec("REFRESH MATERIALIZED VIEW mv_stok_ringkasan");
+                return true;
+            } catch (PDOException $e2) {
+                return false;
+            }
+        }
+    }
     
 }

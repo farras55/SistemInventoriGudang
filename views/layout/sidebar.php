@@ -28,7 +28,15 @@ if (session_status() === PHP_SESSION_NONE) {
     </nav>
 
     <div class="sidebar-footer">
-        <span>👤 <?= htmlspecialchars($_SESSION['user']) ?></span>
+        <?php
+            $displayName = '';
+            if (is_array($_SESSION['user'])) {
+                $displayName = $_SESSION['user']['nama_lengkap'] ?? $_SESSION['user']['username'] ?? '';
+            } else {
+                $displayName = (string) ($_SESSION['user'] ?? '');
+            }
+        ?>
+        <span>👤 <?= htmlspecialchars($displayName) ?></span>
         <a href="/../logout.php" class="logout-btn">Logout</a>
     </div>
 </aside>

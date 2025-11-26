@@ -32,7 +32,43 @@ class LaporanController {
         $pages = (int) ceil($total / $limit);
         include __DIR__ . '/../views/laporan/mutasi.php';
     }
+
+    /**
+     * Tampilkan materialized view ringkasan stok.
+     */
+    public function stokRingkasan() {
+        $data = $this->model->getStokRingkasan();
+        $title = "Ringkasan Stok (Materialized)";
+        include __DIR__ . '/../views/laporan/stok_ringkasan.php';
+    }
+
+    /**
+     * Refresh materialized view. POST action.
+     */
+    public function refreshMv() {
+        // hanya izinkan POST
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header("Location: LaporanController.php?action=stokRingkasan");
+            exit;
+        }
+
+
+        $ok = $this->model->refreshMaterialized();
+        if ($ok) {
+            $_SESSION['flash_success'] = 'Materialized view berhasil di-refresh.';
+        } else {
+            $_SESSION['flash_error'] = 'Gagal mereset materialized view. Periksa log server atau hak akses DB.';
+        }
+
+        header("Location: LaporanController.php?action=stokRingkasan");
+        exit;
+    }
 }
 
 $controller = new LaporanController();
-$controller->mutasi();
+$action = $_GET['action'] ?? $_POST['action'] ?? 'mutasi';
+if (method_exists($controller, $action)) {
+    $controller->$action();
+} else {
+    $controller->mutasi();
+}

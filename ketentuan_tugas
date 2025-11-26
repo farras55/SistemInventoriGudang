@@ -1,0 +1,83 @@
+SISTEM INVENTORY GUDANG
+
+Fitur Utama:
+1. Master Barang - Data barang dengan kode, nama, kategori, dan minimum stok. Alert untuk stok menipis.
+2. Transaksi Masuk - Form penerimaan barang dari supplier dengan nomor PO dan update stok.
+3. Transaksi Keluar - Form pengeluaran barang untuk distribusi atau penjualan. Validasi stok cukup.
+4. Laporan Stok - Laporan stok opname, barang slow-moving, dan mutasi barang per periode.
+
+
+
+
+SPESIFIKASI TEKNIS APLIKASI
+1. ARSITEKTUR DAN TEKNOLOGI
+•Backend: PHP Native (procedural style diperbolehkan)
+•Database: PostgreSQL dengan koneksi PDO
+•Frontend: HTML5, CSS3, JavaScript vanilla
+•Struktur File: Pattern MVC sederhana (minimal pemisahan logic dan presentation)
+•Security Basic: Prepared statements, input sanitization, basic validation
+
+2. FITUR APLIKASI MINIMAL
+Minimal 4 entitas utama dari studi kasus:
+•Create: Form input dengan validasi client & server side
+•Read: Tampilan data dengan pagination (10-15 records per halaman)
+•Update: Form edit dengan data pre-filled
+•Delete: Dengan konfirmasi JavaScript
+•Search: Fitur pencarian real-time pada minimal 2 field
+
+FITUR TRANSAKSI
+•Form transaksi yang melibatkan multiple tabel
+•Validasi business rules dari database
+•Auto-calculate fields (total, subtotal, dll)
+•Success/error feedback setelah proses
+
+FITUR DATABASE WAJIB DIAPLIKASIKAN
+1. IMPLEMENTASI DML MELALUI WEB
+•INSERT via form input dengan validasi
+•UPDATE via form edit dengan WHERE clause
+•DELETE dengan konfirmasi dan soft delete option
+•SELECT dengan berbagai JOIN tampil di halaman data
+
+2. PEMANGGILAN FUNCTION & STORED PROCEDURE
+•Minimal 2 function/scalar function dipanggil via PHP
+•1 stored procedure dijalankan melalui interface web
+•Tampilkan input parameters dan output results
+
+3. UTILISASI VIEWS
+•1 simple view ditampilkan sebagai read-only data
+•1 complex view dengan multiple joins untuk laporan
+•Filtering dan sorting pada view data
+
+4. MATERIALIZED VIEW IMPLEMENTASI
+•1 materialized view ditampilkan di halaman khusus
+•Fitur manual refresh materialized view via button
+•Penjelasan performa improvement
+
+5. DEMONSTRASI INDEXING
+•Halaman perbandingan query performance
+•Tampilkan EXPLAIN ANALYZE results
+•Demonstrasi perbedaan query dengan/without index
+
+6. TRANSACTION MANAGEMENT
+•Simulasi transaksi complex dengan BEGIN/COMMIT
+•Fitur rollback manual untuk demonstrasi
+•Error handling untuk transaction failure
+
+KRITERIA FUNGSIONALITAS
+A. KONEKSI DAN OPERASI DATABASE
+•Koneksi PostgreSQL stabil menggunakan PDO
+•Error handling untuk database connection
+•Prepared statements untuk semua query dengan user input
+•Transaction handling untuk operasi critical
+
+B. ANTARMUKA PENGGUNA
+•Form yang user-friendly dengan label jelas
+•Validation feedback yang informatif
+•Pagination untuk data yang banyak
+•Loading state untuk operasi berat
+
+C. FITUR PENCARIAN DAN FILTER
+•Search real-time pada minimal 2 kolom
+•Filter berdasarkan kategori/status
+•Sortable table columns
+•Combination search dan filter

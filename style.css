@@ -163,6 +163,57 @@ body {
 
 .card p { color: #4b5563; }
 
+/* Dashboard specific */
+.dashboard-intro {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.dashboard-intro h2 { font-size: 22px; }
+
+.stat-number {
+    font-size: 34px;
+    font-weight: 700;
+    color: #111827;
+    margin: 8px 0 6px;
+}
+
+/* Center numeric values in dashboard cards */
+.stat-number {
+    display: block;
+    text-align: center;
+}
+
+.small-card { text-align: center; }
+
+/* For the larger primary card keep icon on right but center the number/text block */
+.primary-card .card-row > div:first-child { display: flex; flex-direction: column; align-items: center; text-align: center; }
+
+.stat-desc { font-size: 13px; color: #6b7280; }
+
+.primary-card { grid-column: span 2; }
+
+.small-card { display: block; text-decoration: none; }
+
+.card-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+
+.card-icon { font-size: 42px; opacity: 0.9; }
+
+.empty-box {
+    margin-top: 18px;
+    background: #ffffff;
+    padding: 14px 16px;
+    border-radius: 10px;
+    border: 1px dashed #e6eef9;
+    color: #374151;
+}
+
+@media (max-width: 900px) {
+    .primary-card { grid-column: 1 / -1; }
+}
+
 /* ============================
    TABLES
 ============================= */
