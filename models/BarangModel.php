@@ -11,7 +11,7 @@ class BarangModel {
     }
 
     public function getAll() {
-        // default fallback to return all if no params passed (kept for compatibility)
+        // fallback, sudah jarang dipakai tapi tetap dipertahankan
         $sql = "SELECT b.*, k.nama_kategori, s.nama_supplier, g.nama_gudang
             FROM barang b
             JOIN kategori_barang k ON b.id_kategori = k.id_kategori
@@ -22,7 +22,7 @@ class BarangModel {
         return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // new: getAll with pagination and optional keyword search
+    // MASIH: versi lama dengan hanya keyword
     public function getAllPaginated(int $limit, int $offset, string $keyword = "") {
         $sql = "SELECT b.*, k.nama_kategori, s.nama_supplier, g.nama_gudang
             FROM barang b
@@ -59,6 +59,101 @@ class BarangModel {
         return (int) $stmt->fetchColumn();
     }
 
+    // 🔹 BARU: versi dengan SEARCH + FILTER (kategori, supplier, gudang)
+    public function getFilteredPaginated(
+        int $limit,
+        int $offset,
+        string $keyword = "",
+        ?int $id_kategori = null,
+        ?int $id_supplier = null,
+        ?int $id_gudang   = null
+    ) {
+        $sql = "SELECT b.*, k.nama_kategori, s.nama_supplier, g.nama_gudang
+                FROM barang b
+                LEFT JOIN kategori_barang k ON b.id_kategori = k.id_kategori
+                LEFT JOIN supplier s ON b.id_supplier = s.id_supplier
+                LEFT JOIN gudang g   ON b.id_gudang   = g.id_gudang
+                WHERE 1=1";
+
+        $params = [];
+
+        if ($keyword !== "") {
+            $sql .= " AND (b.nama_barang ILIKE :kw OR k.nama_kategori ILIKE :kw)";
+            $params[':kw'] = "%{$keyword}%";
+        }
+
+        if (!empty($id_kategori)) {
+            $sql .= " AND b.id_kategori = :id_kategori";
+            $params[':id_kategori'] = $id_kategori;
+        }
+
+        if (!empty($id_supplier)) {
+            $sql .= " AND b.id_supplier = :id_supplier";
+            $params[':id_supplier'] = $id_supplier;
+        }
+
+        if (!empty($id_gudang)) {
+            $sql .= " AND b.id_gudang = :id_gudang";
+            $params[':id_gudang'] = $id_gudang;
+        }
+
+        $sql .= " ORDER BY b.nama_barang ASC LIMIT :limit OFFSET :offset";
+
+        $stmt = $this->db->prepare($sql);
+        foreach ($params as $k => $v) {
+            $stmt->bindValue($k, $v);
+        }
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function countFiltered(
+        string $keyword = "",
+        ?int $id_kategori = null,
+        ?int $id_supplier = null,
+        ?int $id_gudang   = null
+    ): int {
+        $sql = "SELECT COUNT(*)
+                FROM barang b
+                LEFT JOIN kategori_barang k ON b.id_kategori = k.id_kategori
+                LEFT JOIN supplier s ON b.id_supplier = s.id_supplier
+                LEFT JOIN gudang g   ON b.id_gudang   = g.id_gudang
+                WHERE 1=1";
+
+        $params = [];
+
+        if ($keyword !== "") {
+            $sql .= " AND (b.nama_barang ILIKE :kw OR k.nama_kategori ILIKE :kw)";
+            $params[':kw'] = "%{$keyword}%";
+        }
+
+        if (!empty($id_kategori)) {
+            $sql .= " AND b.id_kategori = :id_kategori";
+            $params[':id_kategori'] = $id_kategori;
+        }
+
+        if (!empty($id_supplier)) {
+            $sql .= " AND b.id_supplier = :id_supplier";
+            $params[':id_supplier'] = $id_supplier;
+        }
+
+        if (!empty($id_gudang)) {
+            $sql .= " AND b.id_gudang = :id_gudang";
+            $params[':id_gudang'] = $id_gudang;
+        }
+
+        $stmt = $this->db->prepare($sql);
+        foreach ($params as $k => $v) {
+            $stmt->bindValue($k, $v);
+        }
+        $stmt->execute();
+
+        return (int) $stmt->fetchColumn();
+    }
+
     public function getById($id) {
         $sql = "SELECT * FROM barang WHERE id_barang = :id";
         $stmt = $this->db->prepare($sql);
@@ -73,42 +168,42 @@ class BarangModel {
         $stmt = $this->db->prepare($sql);
 
         return $stmt->execute([
-            'nama'     => $data['nama'],
-            'kategori' => $data['kategori'],
-            'supplier' => $data['supplier'],
-            'gudang'   => $data['gudang'],
-            'stok'     => $data['stok'],
-            'minstok'  => $data['minstok'],
-            'harga_satuan'    => $data['harga_satuan'],
-            'ket'      => $data['ket'],
+            'nama'         => $data['nama'],
+            'kategori'     => $data['kategori'],
+            'supplier'     => $data['supplier'],
+            'gudang'       => $data['gudang'],
+            'stok'         => $data['stok'],
+            'minstok'      => $data['minstok'],
+            'harga_satuan' => $data['harga_satuan'],
+            'ket'          => $data['ket'],
         ]);
     }
 
     public function update($id, $data) {
 
         $sql = "UPDATE barang SET 
-                nama_barang = :nama,
-                id_kategori = :kategori,
-                id_supplier = :supplier,
-                id_gudang   = :gudang,
-                stok        = :stok,
-                stok_minimum= :minstok,
-                harga_satuan       = :harga_satuan,
-                keterangan  = :ket
+                nama_barang  = :nama,
+                id_kategori  = :kategori,
+                id_supplier  = :supplier,
+                id_gudang    = :gudang,
+                stok         = :stok,
+                stok_minimum = :minstok,
+                harga_satuan = :harga_satuan,
+                keterangan   = :ket
                 WHERE id_barang = :id";
 
         $stmt = $this->db->prepare($sql);
 
         return $stmt->execute([
-            'id'       => $id,
-            'nama'     => $data['nama'],
-            'kategori' => $data['kategori'],
-            'supplier' => $data['supplier'],
-            'gudang'   => $data['gudang'],
-            'stok'     => $data['stok'],
-            'minstok'  => $data['minstok'],
-            'harga_satuan'    => $data['harga_satuan'],
-            'ket'      => $data['ket'],
+            'id'           => $id,
+            'nama'         => $data['nama'],
+            'kategori'     => $data['kategori'],
+            'supplier'     => $data['supplier'],
+            'gudang'       => $data['gudang'],
+            'stok'         => $data['stok'],
+            'minstok'      => $data['minstok'],
+            'harga_satuan' => $data['harga_satuan'],
+            'ket'          => $data['ket'],
         ]);
     }
 

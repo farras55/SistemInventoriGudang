@@ -4,56 +4,92 @@ if (!isset($_SESSION['user'])) {
     header("Location: ../views/auth/login.php");
     exit;
 }
+
 require_once __DIR__ . '/../models/BarangModel.php';
 
-class BarangController {
-
+class BarangController
+{
     private $model;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->model = new BarangModel();
     }
 
-    public function index() {
-        $keyword = trim($_GET['search'] ?? '');
-        $page = max(1, (int)($_GET['page'] ?? 1));
+    /**
+     * LIST BARANG + SEARCH + FILTER + PAGINATION
+     */
+    public function index()
+    {
+        // search & filter
+        $keyword     = trim($_GET['search'] ?? '');
+        $id_kategori = $_GET['kategori'] ?? '';
+        $id_supplier = $_GET['supplier'] ?? '';
+        $id_gudang   = $_GET['gudang'] ?? '';
+
+        $page  = max(1, (int)($_GET['page'] ?? 1));
         $limit = 10;
         $offset = ($page - 1) * $limit;
 
-        $data = $this->model->getAllPaginated($limit, $offset, $keyword);
-        $total = $this->model->count($keyword);
+        // ambil data dengan filter
+        $data = $this->model->getFilteredPaginated(
+            $limit,
+            $offset,
+            $keyword,
+            $id_kategori ? (int)$id_kategori : null,
+            $id_supplier ? (int)$id_supplier : null,
+            $id_gudang   ? (int)$id_gudang   : null
+        );
+
+        $total = $this->model->countFiltered(
+            $keyword,
+            $id_kategori ? (int)$id_kategori : null,
+            $id_supplier ? (int)$id_supplier : null,
+            $id_gudang   ? (int)$id_gudang   : null
+        );
+
         $pages = (int) ceil($total / $limit);
 
-        include __DIR__ . '/../views/barang/index.php';
-    }
-
-    public function create() {
+        // data dropdown
         $kategori = $this->model->getKategori();
         $supplier = $this->model->getSupplier();
         $gudang   = $this->model->getGudang();
+
+        // kirim variabel ke view
+        include __DIR__ . '/../views/barang/index.php';
+    }
+
+    public function create()
+    {
+        $kategori = $this->model->getKategori();
+        $supplier = $this->model->getSupplier();
+        $gudang   = $this->model->getGudang();
+
         include __DIR__ . '/../views/barang/create.php';
     }
 
-    public function store() {
+    public function store()
+    {
         $data = [
-            'nama'     => $_POST['nama'],
-            'kategori' => $_POST['kategori'],
-            'supplier' => $_POST['supplier'],
-            'gudang'   => $_POST['gudang'],
-            'stok'     => $_POST['stok'],
-            'minstok'  => $_POST['minstok'],
-            'harga_satuan'    => $_POST['harga_satuan'],
-            'ket'      => $_POST['ket']
+            'nama'         => $_POST['nama'],
+            'kategori'     => $_POST['kategori'],
+            'supplier'     => $_POST['supplier'],
+            'gudang'       => $_POST['gudang'],
+            'stok'         => $_POST['stok'],
+            'minstok'      => $_POST['minstok'],
+            'harga_satuan' => $_POST['harga_satuan'],
+            'ket'          => $_POST['ket']
         ];
 
         $this->model->store($data);
         header("Location: BarangController.php?action=index");
+        exit;
     }
 
-    public function edit() {
-        $id = $_GET['id'];
+    public function edit()
+    {
+        $id      = $_GET['id'];
         $barang  = $this->model->getById($id);
-
         $kategori = $this->model->getKategori();
         $supplier = $this->model->getSupplier();
         $gudang   = $this->model->getGudang();
@@ -61,31 +97,42 @@ class BarangController {
         include __DIR__ . '/../views/barang/edit.php';
     }
 
-    public function update() {
+    public function update()
+    {
         $id = $_POST['id'];
 
         $data = [
-            'nama'     => $_POST['nama'],
-            'kategori' => $_POST['kategori'],
-            'supplier' => $_POST['supplier'],
-            'gudang'   => $_POST['gudang'],
-            'stok'     => $_POST['stok'],
-            'minstok'   => $_POST['minstok'],
-            'harga_satuan'    => $_POST['harga_satuan'],
-            'ket'      => $_POST['ket']
+            'nama'         => $_POST['nama'],
+            'kategori'     => $_POST['kategori'],
+            'supplier'     => $_POST['supplier'],
+            'gudang'       => $_POST['gudang'],
+            'stok'         => $_POST['stok'],
+            'minstok'      => $_POST['minstok'],
+            'harga_satuan' => $_POST['harga_satuan'],
+            'ket'          => $_POST['ket']
         ];
 
         $this->model->update($id, $data);
         header("Location: BarangController.php?action=index");
+        exit;
     }
 
-    public function delete() {
+    public function delete()
+    {
         $id = $_GET['id'];
         $this->model->delete($id);
         header("Location: BarangController.php?action=index");
+        exit;
     }
 }
 
+// ROUTER SEDERHANA
 $controller = new BarangController();
 $action = $_GET['action'] ?? 'index';
-$controller->$action();
+
+if (method_exists($controller, $action)) {
+    $controller->$action();
+} else {
+    // fallback kalau action tidak ada
+    $controller->index();
+}

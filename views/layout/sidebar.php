@@ -24,7 +24,11 @@ if (session_status() === PHP_SESSION_NONE) {
         <a href="/../controllers/TransaksiKeluarController.php?action=index" class="menu-item">⬇ Barang Keluar</a>
 
         <p class="menu-label">Laporan</p>
+        <a href="/../controllers/LaporanController.php?action=stokOpname" class="menu-item">📋 Stok Opname</a>
+        <a href="/../controllers/LaporanController.php?action=slowMoving" class="menu-item">🐢 Barang Slow Moving</a>
         <a href="/../controllers/LaporanController.php?action=mutasi" class="menu-item">📘 Laporan Mutasi</a>
+        <a href="/../controllers/LaporanController.php?action=stokRingkasan" class="menu-item">📊 Ringkasan Stok</a>
+
     </nav>
 
     <div class="sidebar-footer">

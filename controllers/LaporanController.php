@@ -63,6 +63,61 @@ class LaporanController {
         header("Location: LaporanController.php?action=stokRingkasan");
         exit;
     }
+
+
+    public function stokOpname() {
+        $keyword    = trim($_GET['search'] ?? '');
+        $id_gudang  = $_GET['gudang'] ?? '';
+        $id_kategori= $_GET['kategori'] ?? '';
+
+        $page  = max(1, (int)($_GET['page'] ?? 1));
+        $limit = 10;
+        $offset = ($page - 1) * $limit;
+
+        $data = $this->model->getStokOpnamePaginated(
+            $limit,
+            $offset,
+            $keyword,
+            $id_gudang ? (int)$id_gudang : null,
+            $id_kategori ? (int)$id_kategori : null
+        );
+
+        $total = $this->model->countStokOpname(
+            $keyword,
+            $id_gudang ? (int)$id_gudang : null,
+            $id_kategori ? (int)$id_kategori : null
+        );
+
+        $pages = (int) ceil($total / $limit);
+
+        // dropdown filter
+        $gudang   = $this->model->getAllGudang();
+        $kategori = $this->model->getAllKategori();
+
+        $title = "Laporan Stok Opname";
+
+        include __DIR__ . '/../views/laporan/stok_opname.php';
+    }
+
+
+
+
+    public function slowMoving()
+    {
+        $keyword = trim($_GET['search'] ?? '');
+        $page    = max(1, (int)($_GET['page'] ?? 1));
+        $limit   = 10;
+        $offset  = ($page - 1) * $limit;
+
+        $data = $this->model->getSlowMovingPaginated($limit, $offset, $keyword);
+        $total = $this->model->countSlowMoving($keyword);
+        $pages = (int) ceil($total / $limit);
+
+        $title = "Laporan Barang Slow Moving";
+        include __DIR__ . '/../views/laporan/slow_moving.php';
+    }
+
+
 }
 
 $controller = new LaporanController();

@@ -1,51 +1,45 @@
 <?php
 // controllers/DashboardController.php
-
 session_start();
+if (!isset($_SESSION['user'])) {
+    header("Location: ../views/auth/login.php");
+    exit;
+}
 
-require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../models/DashboardModel.php';
 
 class DashboardController
 {
     private $model;
 
-    public function __construct(PDO $db)
+    public function __construct()
     {
-        $this->model = new DashboardModel($db);
+        $this->model = new DashboardModel();
     }
 
-    public function index(): void
+    public function index()
     {
-        // cek sudah login atau belum
-        if (!isset($_SESSION['user'])) {
-            // path relatif dari controllers ke views
-            header("Location: ../views/auth/login.php");
-            exit;
-        }
+        // Ringkasan angka
+        $counts = $this->model->getCounts();
 
-        // panggil FUNCTION total_stok_barang() lewat model
-        $totalStok = $this->model->getTotalStok();
-        // data tambahan untuk tampilan
-        $totalItems = $this->model->getTotalItems();
-        $lowStockCount = $this->model->getLowStockCount();
+        // List kecil untuk panel peringatan
+        $barangMenipis    = $this->model->getBarangMenipisTop(5);
+        $slowMoving       = $this->model->getSlowMovingTop(5);
+        $transaksiTerbaru = $this->model->getTransaksiTerbaru(10);
 
-        // judul halaman
+        // variabel lain jika ingin dipakai di view
         $title = "Dashboard";
 
-        // load view
         include __DIR__ . '/../views/dashboard/index.php';
     }
 }
 
-// simple router di file ini
+// router sederhana
+$controller = new DashboardController();
 $action = $_GET['action'] ?? 'index';
-
-$controller = new DashboardController($pdo);
 
 if (method_exists($controller, $action)) {
     $controller->$action();
 } else {
-    // fallback kalau action tidak ada
     $controller->index();
 }

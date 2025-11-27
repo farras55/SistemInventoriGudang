@@ -18,7 +18,6 @@ include __DIR__ . '/../layout/header.php';
     <form method="POST" action="LaporanController.php?action=refreshMv" onsubmit="return confirm('Refresh materialized view?')">
         <button class="btn">Refresh MV</button>
     </form>
-    <a class="btn muted" href="LaporanController.php?action=mutasi">Kembali ke Mutasi</a>
 </div>
 
 <table class="table">

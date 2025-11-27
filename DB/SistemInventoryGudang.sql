@@ -355,3 +355,26 @@ FROM barang b
 LEFT JOIN masuk m ON b.id_barang = m.id_barang
 LEFT JOIN keluar k ON b.id_barang = k.id_barang
 ORDER BY b.nama_barang;
+
+
+
+CREATE OR REPLACE VIEW v_stok_opname AS
+SELECT 
+    b.id_barang,
+    b.kode_barang,
+    b.nama_barang,
+    k.nama_kategori,
+    g.nama_gudang,
+    b.stok,
+    b.stok_minimum,
+    b.harga_satuan,
+    (b.stok * b.harga_satuan) AS nilai_persediaan,
+    CASE 
+        WHEN b.stok < b.stok_minimum THEN 'MENIPIS'
+        ELSE 'AMAN'
+    END AS status_stok
+FROM barang b
+LEFT JOIN kategori_barang k ON b.id_kategori = k.id_kategori
+LEFT JOIN gudang g         ON b.id_gudang   = g.id_gudang
+ORDER BY b.nama_barang;
+

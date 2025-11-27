@@ -4,9 +4,6 @@ include __DIR__ . '/../layout/header.php';
 ?>
 
 <h2>Laporan Mutasi Barang</h2>
-<div style="margin-bottom:10px;">
-    <a class="btn" href="LaporanController.php?action=stokRingkasan">Lihat Ringkasan Stok (MV)</a>
-</div>
 <!-- SEARCH FORM -->
 <form method="GET" action="LaporanController.php" class="mt-16" style="display:flex;gap:8px;align-items:center;">
     <input type="hidden" name="action" value="mutasi">
