@@ -49,42 +49,39 @@ class TransaksiKeluarModel {
 
     public function store($data) {
         try {
-            // begin transaction
             $this->db->beginTransaction();
 
-            // kurangi stok barang
-            $stmt1 = $this->db->prepare("
-                UPDATE barang 
-                SET stok = stok - :jumlah, tanggal_update = NOW()
-                WHERE id_barang = :id_barang
-            ");
-
-            $stmt1->execute([
-                'jumlah'    => $data['jumlah'],
-                'id_barang' => $data['id_barang']
-            ]);
-
-            // insert transaksi
+            // 1) INSERT dulu -> trigger cek stok pakai stok awal di tabel barang
             $stmt2 = $this->db->prepare("
                 INSERT INTO transaksi_keluar (id_barang, tanggal, jumlah)
                 VALUES (:id_barang, :tanggal, :jumlah)
             ");
-
             $stmt2->execute([
                 'id_barang' => $data['id_barang'],
                 'tanggal'   => $data['tanggal'],
                 'jumlah'    => $data['jumlah']
             ]);
 
-            // commit
+            // 2) Baru kurangi stok barang
+            $stmt1 = $this->db->prepare("
+                UPDATE barang 
+                SET stok = stok - :jumlah, tanggal_update = NOW()
+                WHERE id_barang = :id_barang
+            ");
+            $stmt1->execute([
+                'jumlah'    => $data['jumlah'],
+                'id_barang' => $data['id_barang']
+            ]);
+
             $this->db->commit();
             return true;
 
         } catch (PDOException $e) {
             $this->db->rollBack();
-            return $e->getMessage(); // kirim ke controller
+            return $e->getMessage();
         }
     }
+
 
 
     public function delete($id) {

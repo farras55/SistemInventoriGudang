@@ -378,3 +378,33 @@ LEFT JOIN kategori_barang k ON b.id_kategori = k.id_kategori
 LEFT JOIN gudang g         ON b.id_gudang   = g.id_gudang
 ORDER BY b.nama_barang;
 
+
+CREATE OR REPLACE PROCEDURE tambah_stok(
+    p_id_barang INT,
+    p_jumlah    INT,
+    p_no_po     VARCHAR(30) DEFAULT NULL
+)
+LANGUAGE plpgsql AS $$
+BEGIN
+    -- Validasi
+    IF p_jumlah IS NULL OR p_jumlah <= 0 THEN
+        RAISE EXCEPTION 'Jumlah harus lebih besar dari 0. Diterima: %', p_jumlah;
+    END IF;
+
+    -- 1) Insert ke transaksi_masuk
+    INSERT INTO transaksi_masuk (id_barang, jumlah, no_po)
+    VALUES (p_id_barang, p_jumlah, p_no_po);
+
+    -- 2) Update stok barang
+    UPDATE barang
+    SET stok = stok + p_jumlah,
+        tanggal_update = NOW()
+    WHERE id_barang = p_id_barang;
+
+    IF NOT FOUND THEN
+        RAISE EXCEPTION 'Barang dengan id % tidak ditemukan', p_id_barang;
+    END IF;
+END;
+$$;
+
+
