@@ -6,6 +6,11 @@ include __DIR__ . '/../layout/header.php';
 <div class="form-box">
   <h3 class="form-title">Tambah Transaksi Keluar</h3>
 
+  <?php if (isset($_GET['error'])): ?>
+  <p class="alert alert-danger"><?= htmlspecialchars($_GET['error']) ?></p>
+<?php endif; ?>
+
+
   <form method="POST" action="TransaksiKeluarController.php?action=store">
 
     <div class="form-group">

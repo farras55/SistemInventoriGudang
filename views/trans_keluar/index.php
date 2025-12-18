@@ -8,6 +8,15 @@ include __DIR__ . '/../layout/header.php';
     <a class="btn" href="TransaksiKeluarController.php?action=create">+ Tambah Transaksi</a>
 </div>
 
+<?php if (isset($_GET['success'])): ?>
+  <p class="alert alert-success"><?= htmlspecialchars($_GET['success']) ?></p>
+<?php endif; ?>
+
+<?php if (isset($_GET['error'])): ?>
+  <p class="alert alert-danger"><?= htmlspecialchars($_GET['error']) ?></p>
+<?php endif; ?>
+
+
 <!-- SEARCH & TOTAL -->
 <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px;">
     <input id="searchBox" type="text" placeholder="Cari transaksi (barang)..." class="input" style="min-width:280px;" value="<?= htmlspecialchars($keyword ?? '') ?>">

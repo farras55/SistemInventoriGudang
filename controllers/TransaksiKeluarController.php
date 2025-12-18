@@ -34,21 +34,54 @@ class TransaksiKeluarController {
     }
 
     public function store() {
-        $data = [
-            'id_barang' => $_POST['id_barang'],
-            'tanggal'   => $_POST['tanggal'],
-            'jumlah'    => $_POST['jumlah']
-        ];
+        $id_barang = $_POST['id_barang'] ?? null;
+        $tanggal   = $_POST['tanggal'] ?? date('Y-m-d');
+        $jumlah    = (int)($_POST['jumlah'] ?? 0);
 
-        $this->model->store($data);
-        header("Location: TransaksiKeluarController.php?action=index");
+        if (empty($id_barang) || $jumlah <= 0) {
+            header("Location: TransaksiKeluarController.php?action=create&error=" . urlencode("Barang & jumlah wajib diisi (jumlah > 0)."));
+            exit;
+        }
+
+        $result = $this->model->store([
+            'id_barang' => $id_barang,
+            'tanggal'   => $tanggal,
+            'jumlah'    => $jumlah
+        ]);
+
+        if ($result === true) {
+            header("Location: TransaksiKeluarController.php?action=index&success=" . urlencode("Transaksi keluar berhasil disimpan."));
+            exit;
+        }
+
+        // $result is string error message from model
+        $msg = (string)$result;
+        // rapikan pesan khusus stok tidak cukup
+        if (stripos($msg, 'Stok barang tidak mencukupi') !== false) {
+            $msg = "Stok barang tidak mencukupi!";
+        }
+        header("Location: TransaksiKeluarController.php?action=create&error=" . urlencode($msg));
+        exit;
     }
 
     public function delete() {
-        $id = $_GET['id'];
-        $this->model->delete($id);
-        header("Location: TransaksiKeluarController.php?action=index");
+        $id = $_GET['id'] ?? null;
+        if (empty($id)) {
+            header("Location: TransaksiKeluarController.php?action=index&error=" . urlencode("ID transaksi tidak valid."));
+            exit;
+        }
+
+        $result = $this->model->delete($id);
+
+        if ($result === true) {
+            header("Location: TransaksiKeluarController.php?action=index&success=" . urlencode("Transaksi keluar berhasil dihapus."));
+            exit;
+        }
+
+        header("Location: TransaksiKeluarController.php?action=index&error=" . urlencode((string)$result));
+        exit;
     }
+
 }
 
 $controller = new TransaksiKeluarController();

@@ -88,70 +88,68 @@ class LaporanModel {
 
     public function getStokOpnamePaginated(int $limit, int $offset, string $keyword = "", ?int $id_gudang = null, ?int $id_kategori = null) {
         $sql = "SELECT 
-                    b.id_barang,
-                    b.nama_barang,
-                    k.nama_kategori,
-                    g.nama_gudang,
-                    b.stok,
-                    b.stok_minimum,
-                    b.harga_satuan
-                FROM barang b
-                LEFT JOIN kategori_barang k ON b.id_kategori = k.id_kategori
-                LEFT JOIN gudang g ON b.id_gudang = g.id_gudang
+                    vo.id_barang,
+                    vo.nama_barang,
+                    vo.nama_kategori,
+                    vo.nama_gudang,
+                    vo.stok,
+                    vo.stok_minimum
+                FROM v_stok_opname vo
+                JOIN barang b ON b.id_barang = vo.id_barang
                 WHERE 1=1";
 
         $params = [];
 
         if ($keyword !== "") {
-            $sql .= " AND (b.nama_barang ILIKE :kw OR k.nama_kategori ILIKE :kw)";
+            $sql .= " AND (vo.nama_barang ILIKE :kw OR vo.nama_kategori ILIKE :kw OR vo.nama_gudang ILIKE :kw)";
             $params[':kw'] = "%{$keyword}%";
         }
 
         if (!empty($id_gudang)) {
             $sql .= " AND b.id_gudang = :id_gudang";
-            $params[':id_gudang'] = $id_gudang;
+            $params[':id_gudang'] = (int)$id_gudang;
         }
 
         if (!empty($id_kategori)) {
             $sql .= " AND b.id_kategori = :id_kategori";
-            $params[':id_kategori'] = $id_kategori;
+            $params[':id_kategori'] = (int)$id_kategori;
         }
 
-        $sql .= " ORDER BY b.nama_barang ASC LIMIT :limit OFFSET :offset";
+        $sql .= " ORDER BY vo.nama_barang LIMIT :limit OFFSET :offset";
 
         $stmt = $this->db->prepare($sql);
+
         foreach ($params as $k => $v) {
             $stmt->bindValue($k, $v);
         }
-        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
-        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
-        $stmt->execute();
+        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
 
+        $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function countStokOpname(string $keyword = "", ?int $id_gudang = null, ?int $id_kategori = null): int {
-        $sql = "SELECT COUNT(*) 
-                FROM barang b
-                LEFT JOIN kategori_barang k ON b.id_kategori = k.id_kategori
-                LEFT JOIN gudang g ON b.id_gudang = g.id_gudang
+    public function countStokOpname(string $keyword = "", ?int $id_gudang = null, ?int $id_kategori = null) {
+        $sql = "SELECT COUNT(*) AS total
+                FROM v_stok_opname vo
+                JOIN barang b ON b.id_barang = vo.id_barang
                 WHERE 1=1";
 
         $params = [];
 
         if ($keyword !== "") {
-            $sql .= " AND (b.nama_barang ILIKE :kw OR k.nama_kategori ILIKE :kw)";
+            $sql .= " AND (vo.nama_barang ILIKE :kw OR vo.nama_kategori ILIKE :kw OR vo.nama_gudang ILIKE :kw)";
             $params[':kw'] = "%{$keyword}%";
         }
 
         if (!empty($id_gudang)) {
             $sql .= " AND b.id_gudang = :id_gudang";
-            $params[':id_gudang'] = $id_gudang;
+            $params[':id_gudang'] = (int)$id_gudang;
         }
 
         if (!empty($id_kategori)) {
             $sql .= " AND b.id_kategori = :id_kategori";
-            $params[':id_kategori'] = $id_kategori;
+            $params[':id_kategori'] = (int)$id_kategori;
         }
 
         $stmt = $this->db->prepare($sql);
@@ -160,8 +158,9 @@ class LaporanModel {
         }
         $stmt->execute();
 
-        return (int) $stmt->fetchColumn();
+        return (int)$stmt->fetchColumn();
     }
+
 
     public function getAllGudang() {
         $sql = "SELECT id_gudang, nama_gudang FROM gudang ORDER BY nama_gudang ASC";

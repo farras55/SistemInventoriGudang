@@ -374,6 +374,54 @@ body {
     margin-bottom: 12px;
 }
 
+/* Alert variants + animation */
+.alert{
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  position: relative;
+  animation: alertIn 220ms ease-out;
+}
+
+/* bar di kiri biar "nendang" */
+.alert::before{
+  content:"";
+  width: 6px;
+  border-radius: 8px;
+  background: currentColor;
+  opacity: .35;
+}
+
+/* Variasi warna */
+.alert-success{
+  background: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+.alert-danger,
+.alert-error{
+  background: #fff5f5;
+  color: #7f1d1d;
+  border: 1px solid #fecaca;
+}
+.alert-info{
+  background: #eff6ff;
+  color: #1e3a8a;
+  border: 1px solid #bfdbfe;
+}
+
+/* Animasi masuk */
+@keyframes alertIn{
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Kalau user prefer no animation */
+@media (prefers-reduced-motion: reduce){
+  .alert{ animation: none; }
+}
+
+
 .muted {
     color: #6b7280;
     font-size: 13px;

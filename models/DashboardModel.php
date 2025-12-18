@@ -44,20 +44,21 @@ class DashboardModel
     public function getBarangMenipisTop(int $limit = 5): array
     {
         $sql = "
-            SELECT 
-                b.id_barang,
-                b.nama_barang,
-                b.stok,
-                b.stok_minimum,
+            SELECT
+                a.id_barang,
+                a.nama_barang,
+                a.stok,
+                a.stok_minimum,
                 k.nama_kategori,
                 g.nama_gudang
-            FROM barang b
+            FROM v_alert_stok_menipis a
+            JOIN barang b ON b.id_barang = a.id_barang
             LEFT JOIN kategori_barang k ON b.id_kategori = k.id_kategori
-            LEFT JOIN gudang g         ON b.id_gudang   = g.id_gudang
-            WHERE b.stok < b.stok_minimum
-            ORDER BY (b.stok - b.stok_minimum) ASC
+            LEFT JOIN gudang g ON b.id_gudang = g.id_gudang
+            ORDER BY (a.stok - a.stok_minimum) ASC
             LIMIT :limit
         ";
+
 
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
