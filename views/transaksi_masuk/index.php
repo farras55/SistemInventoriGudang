@@ -12,7 +12,7 @@ include __DIR__ . '/../layout/header.php';
     <p class="alert alert-success"><?= $_GET['success'] ?></p>
 <?php endif; ?>
 
-<!-- SEARCH & TOTAL -->
+
 <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px;">
     <input id="searchBox" type="text" placeholder="Cari transaksi (barang)..." class="input" style="min-width:280px;" value="<?= htmlspecialchars($keyword ?? '') ?>">
     <span class="muted">Total: <?= $total ?? count($data) ?></span>
@@ -50,7 +50,7 @@ include __DIR__ . '/../layout/header.php';
     </tbody>
 </table>
 
-<!-- PAGINATION -->
+
 <div class="pagination">
     <?php for ($i=1; $i <= max(1, $pages ?? 1); $i++): ?>
         <a class="page-item <?= ($i == ($page ?? 1)) ? 'active' : '' ?>"
@@ -61,7 +61,7 @@ include __DIR__ . '/../layout/header.php';
 </div>
 
 <script>
-// global server-side search: redirect with ?search=...&page=1 after user stops typing
+
 let timer = null;
 const sb = document.getElementById('searchBox');
 if (sb) {
@@ -76,7 +76,7 @@ if (sb) {
         }, 300);
     });
 }
-// keep focus in search input after page reload so user can continue typing
+
 document.addEventListener('DOMContentLoaded', function () {
     const sb2 = document.getElementById('searchBox');
     if (sb2) {

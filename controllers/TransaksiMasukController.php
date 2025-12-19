@@ -58,7 +58,7 @@ class TransaksiMasukController
     }
 }
 
-// router sederhana
+
 $controller = new TransaksiMasukController();
 $action = $_GET['action'] ?? 'index';
 

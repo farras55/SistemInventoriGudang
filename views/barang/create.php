@@ -16,7 +16,7 @@ include __DIR__ . '/../layout/header.php';
         <div class="form-group">
             <label class="label">Kategori</label>
             <select class="input" name="kategori" required>
-                <option value="">-- pilih kategori --</option>
+                <option value="">
                 <?php foreach ($kategori as $k): ?>
                     <option value="<?= $k['id_kategori'] ?>"><?= $k['nama_kategori'] ?></option>
                 <?php endforeach; ?>
@@ -26,7 +26,7 @@ include __DIR__ . '/../layout/header.php';
         <div class="form-group">
             <label class="label">Supplier</label>
             <select class="input" name="supplier" required>
-                <option value="">-- pilih supplier --</option>
+                <option value="">
                 <?php foreach ($supplier as $s): ?>
                     <option value="<?= $s['id_supplier'] ?>"><?= $s['nama_supplier'] ?></option>
                 <?php endforeach; ?>
@@ -36,7 +36,7 @@ include __DIR__ . '/../layout/header.php';
         <div class="form-group">
             <label class="label">Gudang</label>
             <select class="input" name="gudang" required>
-                <option value="">-- pilih gudang --</option>
+                <option value="">
                 <?php foreach ($gudang as $g): ?>
                     <option value="<?= $g['id_gudang'] ?>"><?= $g['nama_gudang'] ?></option>
                 <?php endforeach; ?>

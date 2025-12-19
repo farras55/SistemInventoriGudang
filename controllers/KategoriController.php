@@ -4,12 +4,12 @@ if (!isset($_SESSION['user'])) {
     header("Location: ../views/auth/login.php");
     exit;
 }
-require_once __DIR__ . '/../config/db.php'; // harus membuat $pdo di file ini
+require_once __DIR__ . '/../config/db.php'; 
 require_once __DIR__ . '/../models/KategoriModel.php';
 
 $model = new KategoriModel($pdo);
 
-// simple router by action param
+
 $action = $_GET['action'] ?? 'index';
 
 if ($action === 'index') {
@@ -32,12 +32,12 @@ if ($action === 'create') {
 }
 
 if ($action === 'store' && $_SERVER['REQUEST_METHOD'] === 'POST') {
-    // server-side validation
+    
     $nama = trim($_POST['nama'] ?? '');
     $deskripsi = trim($_POST['deskripsi'] ?? '');
 
     if ($nama === '' || strlen($nama) < 3) {
-        // redirect back with error
+        
         header("Location: KategoriController.php?action=create&error=" . urlencode("Nama kategori minimal 3 karakter"));
         exit;
     }
@@ -86,6 +86,6 @@ if ($action === 'delete') {
     exit;
 }
 
-// default
+
 header("Location: KategoriController.php?action=index");
 exit;

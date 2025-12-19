@@ -6,7 +6,7 @@ class SupplierModel {
     private $db;
 
     public function __construct() {
-        global $pdo;        // ← ambil variabel dari db.php
+        global $pdo;        
         $this->db = $pdo;
     }
 
@@ -15,7 +15,7 @@ class SupplierModel {
         return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // paginated + search
+    
     public function getAllPaginated(int $limit, int $offset, string $keyword = "") {
         $sql = "SELECT * FROM supplier
             WHERE (nama_supplier ILIKE :kw

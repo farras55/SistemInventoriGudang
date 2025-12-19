@@ -18,7 +18,7 @@ class TransaksiKeluarModel {
         return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // paginated + search by nama_barang
+    
     public function getAllPaginated(int $limit, int $offset, string $keyword = "") {
         $sql = "SELECT tk.*, b.nama_barang 
             FROM transaksi_keluar tk
@@ -51,7 +51,6 @@ class TransaksiKeluarModel {
         try {
             $this->db->beginTransaction();
 
-            // 1) INSERT dulu -> trigger cek stok pakai stok awal di tabel barang
             $stmt2 = $this->db->prepare("
                 INSERT INTO transaksi_keluar (id_barang, tanggal, jumlah)
                 VALUES (:id_barang, :tanggal, :jumlah)
@@ -62,7 +61,6 @@ class TransaksiKeluarModel {
                 'jumlah'    => $data['jumlah']
             ]);
 
-            // 2) Baru kurangi stok barang
             $stmt1 = $this->db->prepare("
                 UPDATE barang 
                 SET stok = stok - :jumlah, tanggal_update = NOW()
@@ -88,7 +86,7 @@ class TransaksiKeluarModel {
         try {
             $this->db->beginTransaction();
 
-            // Ambil data transaksi
+            
             $stmt1 = $this->db->prepare("
                 SELECT id_barang, jumlah 
                 FROM transaksi_keluar 
@@ -104,7 +102,7 @@ class TransaksiKeluarModel {
             $id_barang = $trans['id_barang'];
             $jumlah    = $trans['jumlah'];
 
-            // Kembalikan stok ke tabel barang
+            
             $stmt2 = $this->db->prepare("
                 UPDATE barang 
                 SET stok = stok + :jumlah, tanggal_update = NOW()
@@ -115,7 +113,7 @@ class TransaksiKeluarModel {
                 'id_barang' => $id_barang
             ]);
 
-            // Hapus transaksi keluar
+            
             $stmt3 = $this->db->prepare("
                 DELETE FROM transaksi_keluar WHERE id_trans_keluar = :id
             ");

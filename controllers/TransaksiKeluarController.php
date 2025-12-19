@@ -54,9 +54,9 @@ class TransaksiKeluarController {
             exit;
         }
 
-        // $result is string error message from model
+        
         $msg = (string)$result;
-        // rapikan pesan khusus stok tidak cukup
+        
         if (stripos($msg, 'Stok barang tidak mencukupi') !== false) {
             $msg = "Stok barang tidak mencukupi!";
         }

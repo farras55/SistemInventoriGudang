@@ -1,5 +1,5 @@
 <?php
-// controllers/DashboardController.php
+
 session_start();
 if (!isset($_SESSION['user'])) {
     header("Location: ../views/auth/login.php");
@@ -19,22 +19,22 @@ class DashboardController
 
     public function index()
     {
-        // Ringkasan angka
+        
         $counts = $this->model->getCounts();
 
-        // List kecil untuk panel peringatan
+        
         $barangMenipis    = $this->model->getBarangMenipisTop(5);
         $slowMoving       = $this->model->getSlowMovingTop(5);
         $transaksiTerbaru = $this->model->getTransaksiTerbaru(10);
 
-        // variabel lain jika ingin dipakai di view
+        
         $title = "Dashboard";
 
         include __DIR__ . '/../views/dashboard/index.php';
     }
 }
 
-// router sederhana
+
 $controller = new DashboardController();
 $action = $_GET['action'] ?? 'index';
 

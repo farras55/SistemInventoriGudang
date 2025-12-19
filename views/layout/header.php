@@ -13,16 +13,16 @@ if (session_status() === PHP_SESSION_NONE) {
 
 <body>
 
-<!-- SIDEBAR -->
+
 <?php include __DIR__ . '/sidebar.php'; ?>
 
-<!-- HALAMAN WRAPPER -->
+
 <div class="page-wrapper">
 
-    <!-- HEADER -->
+    
     <header class="top-header">
         <h1><?= $title ?? "Sistem Inventory Gudang" ?></h1>
     </header>
 
-    <!-- KONTEN -->
+    
     <main class="content">

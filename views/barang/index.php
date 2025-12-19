@@ -8,7 +8,7 @@ include __DIR__ . '/../layout/header.php';
     <a class="btn" href="/../controllers/BarangController.php?action=create">+ Tambah Barang</a>
 </div>
 
-<!-- FORM SEARCH + FILTER (gaya mirip stok_opname) -->
+
 <form method="GET"
       action="BarangController.php"
       class="mt-16"
@@ -16,7 +16,7 @@ include __DIR__ . '/../layout/header.php';
 
     <input type="hidden" name="action" value="index">
 
-    <!-- Search -->
+    
     <div style="min-width:220px;">
         <input id="searchBox"
                type="text"
@@ -26,7 +26,7 @@ include __DIR__ . '/../layout/header.php';
                value="<?= htmlspecialchars($keyword ?? '') ?>">
     </div>
 
-    <!-- Filter Kategori -->
+    
     <div>
         <select name="kategori" class="input">
             <option value="">Semua Kategori</option>
@@ -39,7 +39,7 @@ include __DIR__ . '/../layout/header.php';
         </select>
     </div>
 
-    <!-- Filter Supplier -->
+    
     <div>
         <select name="supplier" class="input">
             <option value="">Semua Supplier</option>
@@ -52,7 +52,7 @@ include __DIR__ . '/../layout/header.php';
         </select>
     </div>
 
-    <!-- Filter Gudang -->
+    
     <div>
         <select name="gudang" class="input">
             <option value="">Semua Gudang</option>
@@ -72,7 +72,7 @@ include __DIR__ . '/../layout/header.php';
     <span class="muted">Total: <?= $total ?? count($data) ?></span>
 </form>
 
-<!-- TABEL DATA BARANG -->
+
 <table class="table mt-20" id="dataTable">
     <thead>
         <tr>
@@ -141,7 +141,7 @@ include __DIR__ . '/../layout/header.php';
     </tbody>
 </table>
 
-<!-- PAGINATION -->
+
 <div class="pagination">
     <?php for ($i = 1; $i <= max(1, $pages ?? 1); $i++): ?>
         <a class="page-item <?= ($i == ($page ?? 1)) ? 'active' : '' ?>"
@@ -157,7 +157,7 @@ include __DIR__ . '/../layout/header.php';
 </div>
 
 <script>
-// tetap boleh: live-search dengan debounce
+
 let timer = null;
 const sb = document.getElementById('searchBox');
 if (sb) {
@@ -174,7 +174,7 @@ if (sb) {
     });
 }
 
-// fokus otomatis ke search setelah reload
+
 document.addEventListener('DOMContentLoaded', function () {
     const sb2 = document.getElementById('searchBox');
     if (sb2) {

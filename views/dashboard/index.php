@@ -1,5 +1,5 @@
 <?php
-// views/dashboard/index.php
+
 $title = "Dashboard";
 include __DIR__ . '/../layout/header.php';
 ?>
@@ -10,7 +10,7 @@ include __DIR__ . '/../layout/header.php';
         <h2>Dashboard</h2>
     </div>
 
-    <!-- STAT CARDS -->
+    
     <div class="dashboard-grid" style="margin-top:12px;">
         <div class="card">
             <h3>Total Barang</h3>
@@ -62,10 +62,10 @@ include __DIR__ . '/../layout/header.php';
         </div>
     </div>
 
-       <!-- PANEL BARANG MENIPIS & SLOW MOVING -->
+       
         <div style="display:flex;flex-wrap:wrap;gap:18px;margin-top:22px;align-items:flex-start;">
 
-            <!-- Barang Menipis -->
+            
             <div class="card" style="flex:1 1 380px;min-width:280px;">
                 <h3>Barang Stok Menipis</h3>
                 <p class="muted" style="margin-bottom:10px;">Top 5 barang dengan stok di bawah minimum.</p>
@@ -101,7 +101,7 @@ include __DIR__ . '/../layout/header.php';
                 </table>
             </div>
 
-            <!-- Barang Slow Moving -->
+            
             <div class="card" style="flex:1 1 380px;min-width:280px;">
                 <h3>Barang Slow Moving</h3>
                 <p class="muted" style="margin-bottom:10px;">Top 5 barang dengan pergerakan keluar paling kecil.</p>
@@ -134,7 +134,7 @@ include __DIR__ . '/../layout/header.php';
         </div>
 
 
-    <!-- TRANSAKSI TERBARU -->
+    
     <div class="card" style="margin-top:22px;">
         <h3>Transaksi Terbaru</h3>
         <p class="muted" style="margin-bottom:10px;">10 transaksi masuk / keluar terakhir.</p>

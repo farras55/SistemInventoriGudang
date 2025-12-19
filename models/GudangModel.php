@@ -15,7 +15,7 @@ class GudangModel {
         return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // paginated + search
+    
     public function getAllPaginated(int $limit, int $offset, string $keyword = "") {
         $sql = "SELECT * FROM gudang
                 WHERE (nama_gudang ILIKE :kw OR lokasi ILIKE :kw)

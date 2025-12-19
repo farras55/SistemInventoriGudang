@@ -15,7 +15,7 @@ include __DIR__ . '/../layout/header.php';
         <div class="form-group">
             <label class="label">Barang</label>
             <select name="id_barang" class="input" required>
-                <option value="">-- pilih barang --</option>
+                <option value="">
                 <?php foreach ($barang as $b): ?>
                     <option value="<?= $b['id_barang'] ?>"><?= $b['nama_barang'] ?></option>
                 <?php endforeach; ?>

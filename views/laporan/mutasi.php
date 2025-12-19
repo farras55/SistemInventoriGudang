@@ -4,7 +4,7 @@ include __DIR__ . '/../layout/header.php';
 ?>
 
 <h2>Laporan Mutasi Barang</h2>
-<!-- SEARCH FORM -->
+
 <form method="GET" action="LaporanController.php" class="mt-16" style="display:flex;gap:8px;align-items:center;">
     <input type="hidden" name="action" value="mutasi">
     <input type="text" name="barang" class="input" placeholder="Cari nama barang..." value="<?= htmlspecialchars($_GET['barang'] ?? $_GET['search'] ?? '') ?>">
@@ -42,7 +42,7 @@ include __DIR__ . '/../layout/header.php';
     </tbody>
 </table>
 
-<!-- PAGINATION -->
+
 <div class="pagination">
     <?php for ($i=1; $i <= max(1, $pages ?? 1); $i++): ?>
         <a class="page-item <?= ($i == ($page ?? 1)) ? 'active' : '' ?>"
@@ -53,7 +53,7 @@ include __DIR__ . '/../layout/header.php';
 </div>
 
 <script>
-// global server-side search for laporan: redirect with ?barang=...&page=1 after debounce
+
 let timer = null;
 const searchBox = document.querySelector('input[name="barang"]');
 if (searchBox) {
@@ -69,7 +69,7 @@ if (searchBox) {
         }, 300);
     });
 }
-// keep focus in laporan search input after reload
+
 document.addEventListener('DOMContentLoaded', function () {
     const sb2 = document.querySelector('input[name="barang"]');
     if (sb2) {

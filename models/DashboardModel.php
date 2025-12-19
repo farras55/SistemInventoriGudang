@@ -1,5 +1,5 @@
 <?php
-// models/DashboardModel.php
+
 require_once __DIR__ . '/../config/db.php';
 
 class DashboardModel
@@ -12,9 +12,7 @@ class DashboardModel
         $this->db = $pdo;
     }
 
-    /**
-     * Ambil angka ringkasan untuk kartu statistik dashboard.
-     */
+    
     public function getCounts(): array
     {
         $sql = "
@@ -38,9 +36,7 @@ class DashboardModel
         return $this->db->query($sql)->fetch(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Top N barang stok menipis (stok < minimum).
-     */
+    
     public function getBarangMenipisTop(int $limit = 5): array
     {
         $sql = "
@@ -67,12 +63,10 @@ class DashboardModel
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Top N barang slow-moving dari view v_barang_slow_moving.
-     */
+    
     public function getSlowMovingTop(int $limit = 5): array
     {
-        // sesuaikan nama kolom jika di view kamu beda
+        
         $sql = "
             SELECT nama_barang, total_keluar
             FROM v_barang_slow_moving
@@ -87,9 +81,7 @@ class DashboardModel
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Transaksi terakhir (gabungan masuk & keluar).
-     */
+    
     public function getTransaksiTerbaru(int $limit = 10): array
     {
         $sql = "

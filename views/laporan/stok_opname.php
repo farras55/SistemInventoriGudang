@@ -5,7 +5,7 @@ include __DIR__ . '/../layout/header.php';
 
 <h2>Laporan Stok Opname</h2>
 
-<!-- FORM FILTER (disamakan gaya dengan mutasi) -->
+
 <form method="GET"
       action="LaporanController.php"
       class="mt-16"
@@ -13,7 +13,7 @@ include __DIR__ . '/../layout/header.php';
     
     <input type="hidden" name="action" value="stokOpname">
 
-    <!-- Search -->
+    
     <div style="min-width:220px;">
         <input type="text"
                name="search"
@@ -22,7 +22,7 @@ include __DIR__ . '/../layout/header.php';
                value="<?= htmlspecialchars($keyword ?? '') ?>">
     </div>
 
-    <!-- Filter Gudang -->
+    
     <div>
         <select name="gudang" class="input">
             <option value="">Semua Gudang</option>
@@ -35,7 +35,7 @@ include __DIR__ . '/../layout/header.php';
         </select>
     </div>
 
-    <!-- Filter Kategori -->
+    
     <div>
         <select name="kategori" class="input">
             <option value="">Semua Kategori</option>
@@ -48,7 +48,7 @@ include __DIR__ . '/../layout/header.php';
         </select>
     </div>
 
-    <!-- Tombol + info total -->
+    
     <div>
         <button class="btn">Filter</button>
     </div>
@@ -56,7 +56,7 @@ include __DIR__ . '/../layout/header.php';
     <span class="muted">Total: <?= $total ?></span>
 </form>
 
-<!-- TABEL STOK OPNAME (gaya sama dengan mutasi: .table mt-20) -->
+
 <table class="table mt-20">
     <thead>
         <tr>
@@ -109,7 +109,7 @@ include __DIR__ . '/../layout/header.php';
     </tbody>
 </table>
 
-<!-- PAGINATION (disamakan dengan mutasi) -->
+
 <div class="pagination">
     <?php for ($i = 1; $i <= max(1, $pages ?? 1); $i++): ?>
         <a class="page-item <?= ($i == ($page ?? 1)) ? 'active' : '' ?>"

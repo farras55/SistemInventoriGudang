@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user = $userModel->login($username, $password);
 
     if ($user) {
-        // simpan seluruh info user ke session agar role dan fields lain tersedia
+        
         $_SESSION['user'] = [
             'id_user' => $user['id_user'] ?? null,
             'username' => $user['username'] ?? null,

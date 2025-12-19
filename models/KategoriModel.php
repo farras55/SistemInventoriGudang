@@ -1,6 +1,6 @@
 <?php
-// models/KategoriModel.php
-// Menggunakan $pdo dari config/db.php (pastikan db.php diletakkan di config/ dan di-include di controller)
+
+
 class KategoriModel {
     private $pdo;
 
@@ -8,7 +8,7 @@ class KategoriModel {
         $this->pdo = $pdo;
     }
 
-    // ambil data dengan pagination dan filter keyword
+    
     public function getAll(int $limit, int $offset, string $keyword = "") {
         $sql = "SELECT * FROM kategori_barang
                 WHERE nama_kategori ILIKE :keyword

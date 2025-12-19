@@ -11,7 +11,7 @@ class BarangModel {
     }
 
     public function getAll() {
-        // fallback, sudah jarang dipakai tapi tetap dipertahankan
+        
         $sql = "SELECT b.*, k.nama_kategori, s.nama_supplier, g.nama_gudang
             FROM barang b
             JOIN kategori_barang k ON b.id_kategori = k.id_kategori
@@ -22,7 +22,7 @@ class BarangModel {
         return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // MASIH: versi lama dengan hanya keyword
+    
     public function getAllPaginated(int $limit, int $offset, string $keyword = "") {
         $sql = "SELECT b.*, k.nama_kategori, s.nama_supplier, g.nama_gudang
             FROM barang b
@@ -59,7 +59,7 @@ class BarangModel {
         return (int) $stmt->fetchColumn();
     }
 
-    // 🔹 BARU: versi dengan SEARCH + FILTER (kategori, supplier, gudang)
+    
     public function getFilteredPaginated(
         int $limit,
         int $offset,
@@ -213,7 +213,7 @@ class BarangModel {
         return $stmt->execute(['id'=>$id]);
     }
 
-    // untuk form dropdown
+    
     public function getKategori() {
         return $this->db->query("SELECT * FROM kategori_barang ORDER BY nama_kategori ASC")->fetchAll(PDO::FETCH_ASSOC);
     }

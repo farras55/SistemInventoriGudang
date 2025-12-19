@@ -5,13 +5,13 @@ include __DIR__ . '/../layout/header.php';
 
 <h2>Laporan Barang Slow Moving</h2>
 
-<!-- FORM SEARCH -->
+
 <form method="GET"
       action="/../controllers/LaporanController.php"
       class="mt-16"
       style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
 
-    <!-- PENTING: action=slowMoving -->
+    
     <input type="hidden" name="action" value="slowMoving">
 
     <div style="min-width:220px;">
@@ -57,7 +57,7 @@ include __DIR__ . '/../layout/header.php';
     </tbody>
 </table>
 
-<!-- PAGINATION -->
+
 <div class="pagination">
     <?php for ($i = 1; $i <= max(1, $pages ?? 1); $i++): ?>
         <a class="page-item <?= ($i == ($page ?? 1)) ? 'active' : '' ?>"

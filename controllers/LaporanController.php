@@ -33,20 +33,16 @@ class LaporanController {
         include __DIR__ . '/../views/laporan/mutasi.php';
     }
 
-    /**
-     * Tampilkan materialized view ringkasan stok.
-     */
+    
     public function stokRingkasan() {
         $data = $this->model->getStokRingkasan();
         $title = "Ringkasan Stok (Materialized)";
         include __DIR__ . '/../views/laporan/stok_ringkasan.php';
     }
 
-    /**
-     * Refresh materialized view. POST action.
-     */
+    
     public function refreshMv() {
-        // hanya izinkan POST
+        
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             header("Location: LaporanController.php?action=stokRingkasan");
             exit;
@@ -90,7 +86,7 @@ class LaporanController {
 
         $pages = (int) ceil($total / $limit);
 
-        // dropdown filter
+        
         $gudang   = $this->model->getAllGudang();
         $kategori = $this->model->getAllKategori();
 

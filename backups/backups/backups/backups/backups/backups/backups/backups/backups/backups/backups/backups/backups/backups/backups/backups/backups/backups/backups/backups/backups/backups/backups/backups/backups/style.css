@@ -1,0 +1,514 @@
+/* ============================
+   GLOBAL RESET
+============================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    font-family: "Inter", Arial, Helvetica, sans-serif;
+    background: #f3f4f6;
+    color: #1f2937;
+    height: 100%;
+}
+
+/* ============================
+   LAYOUT MAIN STRUCTURE
+============================= */
+body {
+    display: flex;
+}
+
+/* WRAPPER (Sidebar + Content + Footer) */
+.page-wrapper {
+    flex: 1;
+    margin-left: 240px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* ============================
+   SIDEBAR
+============================= */
+.sidebar {
+    width: 240px;
+    background: #1e3a8a;
+    color: white;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    border-right: 2px solid rgba(255,255,255,0.08);
+}
+
+.sidebar-header {
+    text-align: center;
+    margin-bottom: 22px;
+}
+
+.sidebar-header h2 {
+    font-size: 22px;
+}
+
+.sidebar-menu {
+    flex: 1;
+    padding: 0 12px;
+}
+
+.menu-label {
+    opacity: 0.6;
+    margin: 15px 0 6px;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.menu-item {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: 0.15s ease;
+}
+
+.menu-item:hover {
+    background: rgba(255,255,255,0.18);
+}
+
+.sidebar-footer {
+    padding: 14px;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    text-align: center;
+}
+
+.logout-btn {
+    display: block;
+    background: #ef4444;
+    padding: 8px 10px;
+    border-radius: 6px;
+    margin-top: 8px;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.logout-btn:hover {
+    background: #dc2626;
+}
+
+/* ============================
+   TOP HEADER
+============================= */
+.top-header {
+    background: white;
+    padding: 18px 25px;
+    border-bottom: 1px solid #e5e7eb;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+}
+
+.top-header h1 {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+/* ============================
+   CONTENT AREA
+============================= */
+.content {
+    padding: 25px;
+    padding-bottom: 40px;
+    flex-grow: 1;
+}
+
+/* Page header: Title + Add button */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+/* ============================
+   DASHBOARD CARDS
+============================= */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 18px;
+}
+
+.card {
+    background: white;
+    padding: 18px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    transition: 0.15s ease;
+    text-decoration: none;
+    color: inherit;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 22px rgba(0,0,0,0.08);
+}
+
+.card p { color: #4b5563; }
+
+/* Dashboard specific */
+.dashboard-intro {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.dashboard-intro h2 { font-size: 22px; }
+
+.stat-number {
+    font-size: 34px;
+    font-weight: 700;
+    color: #111827;
+    margin: 8px 0 6px;
+}
+
+/* Center numeric values in dashboard cards */
+.stat-number {
+    display: block;
+    text-align: center;
+}
+
+.small-card { text-align: center; }
+
+/* For the larger primary card keep icon on right but center the number/text block */
+.primary-card .card-row > div:first-child { display: flex; flex-direction: column; align-items: center; text-align: center; }
+
+.stat-desc { font-size: 13px; color: #6b7280; }
+
+.primary-card { grid-column: span 2; }
+
+.small-card { display: block; text-decoration: none; }
+
+.card-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+
+.card-icon { font-size: 42px; opacity: 0.9; }
+
+.empty-box {
+    margin-top: 18px;
+    background: #ffffff;
+    padding: 14px 16px;
+    border-radius: 10px;
+    border: 1px dashed #e6eef9;
+    color: #374151;
+}
+
+@media (max-width: 900px) {
+    .primary-card { grid-column: 1 / -1; }
+}
+
+/* ============================
+   TABLES
+============================= */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 14px;
+    background: white;
+}
+
+.table th {
+    background: #1e3a8a;
+    color: white;
+    padding: 10px;
+    text-align: left;
+}
+
+.table td {
+    padding: 10px 12px;
+    border: 1px solid #e5e7eb;
+}
+
+.table tr:nth-child(even) {
+    background: #f9fafb;
+}
+
+/* ============================
+   BADGES
+============================= */
+.badge {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: white;
+}
+
+.badge-red    { background: #ef4444; }
+.badge-yellow { background: #f59e0b; }
+.badge-green  { background: #10b981; }
+
+/* ============================
+   BUTTONS
+============================= */
+.btn {
+    background: #2563eb;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    display: inline-block;
+}
+
+.btn:hover { background: #1d4ed8; }
+
+.btn-small,
+.btn-small-danger {
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    color: white;
+    text-decoration: none;
+}
+
+.btn-small { background: #2563eb; }
+.btn-small-danger { background: #dc2626; }
+
+.action-btns {
+    display: flex;
+    gap: 6px;
+}
+
+/* ============================
+   FORMS
+============================= */
+.form-box {
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    max-width: 600px;
+}
+
+.label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: block;
+}
+
+.input, select, textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    margin-top: 6px;
+    font-size: 14px;
+}
+
+/* ============================
+   FOOTER (NORMAL)
+============================= */
+.footer {
+    background: #f9fafb;
+    padding: 18px;
+    text-align: center;
+    color: #6b7280;
+    border-top: 1px solid #e5e7eb;
+    margin-top: auto;
+    width: 100%;
+}
+
+/* ============================
+   RESPONSIVE
+============================= */
+@media (max-width: 850px) {
+    .sidebar { width: 200px; }
+    .page-wrapper { margin-left: 200px; }
+}
+
+@media (max-width: 640px) {
+    .sidebar {
+        left: -240px;
+        transition: 0.3s ease;
+    }
+    .sidebar.active { left: 0; }
+    .page-wrapper { margin-left: 0; }
+}
+
+/* ============================
+   AUTH PAGES
+============================= */
+.center-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 24px;
+}
+
+/* When body is a flex container, make the auth center container a flex-item centered via auto margin */
+.center-page {
+    margin: auto;
+    width: 100%;
+}
+
+.card.form-box {
+    width: 100%;
+    max-width: 420px;
+}
+
+.alert {
+    background: #fff5f5;
+    color: #7f1d1d;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #fecaca;
+    margin-bottom: 12px;
+}
+
+/* Alert variants + animation */
+.alert{
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  position: relative;
+  animation: alertIn 220ms ease-out;
+}
+
+/* bar di kiri biar "nendang" */
+.alert::before{
+  content:"";
+  width: 6px;
+  border-radius: 8px;
+  background: currentColor;
+  opacity: .35;
+}
+
+/* Variasi warna */
+.alert-success{
+  background: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+.alert-danger,
+.alert-error{
+  background: #fff5f5;
+  color: #7f1d1d;
+  border: 1px solid #fecaca;
+}
+.alert-info{
+  background: #eff6ff;
+  color: #1e3a8a;
+  border: 1px solid #bfdbfe;
+}
+
+/* Animasi masuk */
+@keyframes alertIn{
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Kalau user prefer no animation */
+@media (prefers-reduced-motion: reduce){
+  .alert{ animation: none; }
+}
+
+
+.muted {
+    color: #6b7280;
+    font-size: 13px;
+}
+
+/* Login / Auth improvements */
+.card-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    text-align: center;
+    color: #111827;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.form .label { font-size: 14px; }
+
+.input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 6px 18px rgba(37,99,235,0.08);
+}
+
+.form .btn {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 15px;
+    border-radius: 10px;
+}
+
+.card.form-box p.muted { text-align: center; margin-top: 8px; }
+
+/* small brand/logo area inside auth card (optional markup) */
+.auth-brand {
+    display: block;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.auth-brand img { max-width: 120px; height: auto; display: inline-block; }
+
+/* ============================
+   PAGINATION
+============================= */
+.pagination {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.page-item {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 8px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    color: #374151;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.12s ease;
+}
+
+.page-item:hover {
+    background: #f3f4f6;
+    transform: translateY(-2px);
+}
+
+.page-item.active {
+    background: #2563eb; /* same as .btn */
+    color: #ffffff;
+    border-color: #2563eb;
+    box-shadow: 0 8px 18px rgba(37,99,235,0.12);
+}
+
+.page-item.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+@media (max-width: 480px) {
+    .page-item { padding: 6px 8px; font-size: 13px; }
+    .pagination { gap: 6px; }
+}

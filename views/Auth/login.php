@@ -32,7 +32,7 @@
   </main>
 
   <script>
-    // small progressive enhancement: focus on first input
+    
     document.addEventListener('DOMContentLoaded', function(){
       var el = document.querySelector('input[name="username"]');
       if(el) el.focus();

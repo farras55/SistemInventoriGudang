@@ -386,16 +386,16 @@ CREATE OR REPLACE PROCEDURE tambah_stok(
 )
 LANGUAGE plpgsql AS $$
 BEGIN
-    -- Validasi
+    
     IF p_jumlah IS NULL OR p_jumlah <= 0 THEN
         RAISE EXCEPTION 'Jumlah harus lebih besar dari 0. Diterima: %', p_jumlah;
     END IF;
 
-    -- 1) Insert ke transaksi_masuk
+    
     INSERT INTO transaksi_masuk (id_barang, jumlah, no_po)
     VALUES (p_id_barang, p_jumlah, p_no_po);
 
-    -- 2) Update stok barang
+    
     UPDATE barang
     SET stok = stok + p_jumlah,
         tanggal_update = NOW()

@@ -16,12 +16,10 @@ class BarangController
         $this->model = new BarangModel();
     }
 
-    /**
-     * LIST BARANG + SEARCH + FILTER + PAGINATION
-     */
+    
     public function index()
     {
-        // search & filter
+        
         $keyword     = trim($_GET['search'] ?? '');
         $id_kategori = $_GET['kategori'] ?? '';
         $id_supplier = $_GET['supplier'] ?? '';
@@ -31,7 +29,7 @@ class BarangController
         $limit = 10;
         $offset = ($page - 1) * $limit;
 
-        // ambil data dengan filter
+        
         $data = $this->model->getFilteredPaginated(
             $limit,
             $offset,
@@ -50,12 +48,12 @@ class BarangController
 
         $pages = (int) ceil($total / $limit);
 
-        // data dropdown
+        
         $kategori = $this->model->getKategori();
         $supplier = $this->model->getSupplier();
         $gudang   = $this->model->getGudang();
 
-        // kirim variabel ke view
+        
         include __DIR__ . '/../views/barang/index.php';
     }
 
@@ -126,13 +124,13 @@ class BarangController
     }
 }
 
-// ROUTER SEDERHANA
+
 $controller = new BarangController();
 $action = $_GET['action'] ?? 'index';
 
 if (method_exists($controller, $action)) {
     $controller->$action();
 } else {
-    // fallback kalau action tidak ada
+    
     $controller->index();
 }

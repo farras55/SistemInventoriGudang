@@ -21,7 +21,7 @@ class TransaksiMasukModel
         return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // paginated + search
+    
     public function getAllPaginated(int $limit, int $offset, string $keyword = "")
     {
         $sql = "SELECT tm.*, b.nama_barang 
@@ -65,12 +65,6 @@ class TransaksiMasukModel
         return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Simpan transaksi masuk dengan memanggil stored procedure tambah_stok.
-     * SP akan:
-     *  - INSERT ke transaksi_masuk
-     *  - UPDATE stok di tabel barang
-     */
     public function store($id_barang, $jumlah, $no_po)
     {
         try {
@@ -88,7 +82,6 @@ class TransaksiMasukModel
             return true;
         } catch (PDOException $e) {
             $this->db->rollBack();
-            // bisa di-log kalau mau: error_log($e->getMessage());
             return false;
         }
     }
